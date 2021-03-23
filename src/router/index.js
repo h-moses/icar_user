@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from "vue-router"
 import Index from "../views/Index";
-import UserLogin from "../views/UserLogin";
+import UserLogin from "../views/user/UserLogin";
 
 Vue.use(VueRouter)
 
 const routes = [
     {
         path: '/',
-        name: Index,
+        name: 'Index',
         component: Index
     },
     {
         path: '/userLogin',
-        name: UserLogin,
+        name: 'UserLogin',
         component: UserLogin
     }
 ]

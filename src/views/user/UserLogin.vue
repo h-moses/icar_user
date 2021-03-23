@@ -1,30 +1,30 @@
 <template>
     <div class="login-container">
         <el-row :gutter="0" class="bk_row">
-            <img alt="" src="../assets/bk.png">
+            <img alt="" src="">
             <el-col :span="16"></el-col>
             <el-col :offset="16" :span="8" class="login_region">
                 <!--头像区域-->
                 <div class="avatar_box">
-                    <img alt="" src="../assets/logo.png">
+                    <img alt="" src="../../assets/logo.png">
                 </div>
-                <el-form :model="this.login_form" :rules="this.loginFormRules" class="login_form" label-width="0"
+                <el-form :model="this.loginForm" :rules="this.loginFormRules" class="login_form" label-width="0"
                          ref="loginFormRef">
                     <el-form-item prop="username">
-                        <el-input placeholder="请输入账号" prefix-icon="icar_sys icaruser"
-                                  v-model="this.login_form.username"></el-input>
+                        <el-input placeholder="请输入账号" prefix-icon="icar_user iconyonghu"
+                                  v-model="loginForm.username" clearable></el-input>
                     </el-form-item>
                     <el-form-item prop="password">
-                        <el-input placeholder="请输入密码" prefix-icon="icar_sys icarmima" type="password"
-                                  v-model="this.login_form.password"></el-input>
+                        <el-input placeholder="请输入密码" prefix-icon="icar_user iconmima" type="password"
+                                  v-model="loginForm.password" clearable></el-input>
                     </el-form-item>
                     <el-form-item class="register-link">
-                        <el-link :underline="false" @click="register" style="font-size: 0.7rem" type="danger">
-                            尚未注册账号？立即注册
+                        <el-link :underline="false" @click="register" style="font-size: 0.8rem;margin-top: 5px" type="danger">
+                            没有账号？点此注册
                         </el-link>
                     </el-form-item>
                     <el-form-item class="btns">
-                        <el-button @click="login" type="primary">登录</el-button>
+                        <el-button class="btn-login" @click="login" type="primary">登录</el-button>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -37,14 +37,13 @@
         name: "UserLogin",
         data() {
             return {
-                login_form: {
+                loginForm: {
                     username: '',
                     password: ''
                 },
                 loginFormRules: {
                     username: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
-                        {min: 3, max: 10, message: '账号在3到10个字符', trigger: 'input'}
                     ],
                     password: [
                         {required: true, message: '请输入密码', trigger: 'blur'}
@@ -54,7 +53,7 @@
         },
         methods: {
             async login() {
-                await this.$router.push('/adminHome')
+                await this.$router.push('/userHome')
             },
             register() {
 
@@ -125,13 +124,16 @@
     .register-link {
         position: absolute;
         top: 30%;
-        padding-left: 30%;
+        padding-left: 35%;
     }
 
     .btns {
         position: relative;
-        left: 40%;
-        width: 60%;
+        width: 100%;
         top: 10%;
+
+        .btn-login {
+            width: 100%;
+        }
     }
 </style>

@@ -1,0 +1,23 @@
+{
+  "id": "2439131",
+  "name": "icar_user",
+  "font_family": "icar_user",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "8165729",
+      "name": "密码",
+      "font_class": "mima",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "14444479",
+      "name": "用户",
+      "font_class": "yonghu",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    }
+  ]
+}
