@@ -3,7 +3,7 @@
         <el-container class="index-container">
             <el-header class="index-header" style="height: 50px">
                 <div class="navbar-brand">
-                    <img class="navbar-logo" src="../assets/logo.png" alt=""/>
+                    <img alt="" class="navbar-logo" src="../assets/logo.png"/>
                     <span class="navbar-title">驭鹰</span>
                 </div>
                 <div class="navbar-collapse">
@@ -16,8 +16,8 @@
                 </div>
                 <div class="navbar-login-register">
                     <ul class="navbar-user">
-                        <router-link id="nav-login" to="/userLogin" target="_blank">登录</router-link>
-                        <router-link id="nav-register" to="https://www.baidu.com/" target="_blank">注册</router-link>
+                        <router-link id="nav-login" target="_blank" to="/userLogin">登录</router-link>
+                        <router-link id="nav-register" target="_blank" to="https://www.baidu.com/">注册</router-link>
                     </ul>
                 </div>
             </el-header>
@@ -97,9 +97,11 @@
                         align-items: center;
                         text-decoration: none;
                         color: #551A8B;
+                        transition: background-color 0.3s;
                     }
+
                     > a:hover {
-                        transition: 0.3s;
+
                         background-color: #E0EAFF;
                     }
                 }
@@ -132,10 +134,10 @@
                         align-items: center;
                         text-decoration: none;
                         color: #551A8B;
+                        transition: background-color 0.3s;
                     }
 
                     > a:hover {
-                        transition: 0.3s;
                         background-color: #E0EAFF;
                     }
                 }
