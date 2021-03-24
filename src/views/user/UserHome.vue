@@ -42,6 +42,7 @@
         </el-aside>
         <el-container>
             <el-header class="home-header" style="height:50px">
+                <div class="current-time">当前时间：{{currentTime | formatDate}}</div>
                 <div class="header-avatar">
                     <el-popover class="popover-avatar" placement="bottom-start" trigger="hover" width="300">
                         <div class="popover-content">
@@ -71,20 +72,52 @@
 </template>
 
 <script>
+    const currentTime = new Date()
+    //在月份、日期、小时等小于10前面补0
+    const padDate = function (value) {
+        return value < 10 ? '0' + value : value;
+    };
     export default {
         name: "UserHome",
         data() {
             return {
                 activePath: '',
-
+                currentTime
+            }
+        },
+        filters: {
+            formatDate:function (value) {
+                const date = new Date(value);
+                const year = date.getFullYear();
+                const month = padDate(date.getMonth() + 1);
+                const day = padDate(date.getDate());
+                const hours = padDate(date.getHours());
+                const minutes = padDate(date.getMinutes());
+                const seconds = padDate(date.getSeconds());
+                return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':'
+                    + seconds;
             }
         },
         created() {
             this.activePath = this.$route.path
             this.getUserProfile()
         },
+        mounted() {
+            const _this = this;
+            this.timer = setInterval(function () {
+              _this.currentTime = new Date()
+          })
+        },
+        beforeDestroy() {
+            if (this.timer) {
+                clearInterval(this.timer)
+            }
+        },
         methods: {
             async getUserProfile() {
+
+            },
+            logout() {
 
             }
         }
@@ -141,6 +174,16 @@
             justify-content: flex-end;
             /*background-color: #EDF3FF;*/
             box-shadow: 0 10px 10px -10px #CCD0D3;
+
+            .current-time {
+                margin-right: 20px;
+                display: flex;
+                align-items: center;
+                font-size: 14px;
+                font-family: "微软雅黑",sans-serif;
+
+                color: #6C75D1;
+            }
 
             .header-avatar {
                 width: 50px;
