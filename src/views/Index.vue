@@ -16,8 +16,8 @@
                 </div>
                 <div class="navbar-login-register">
                     <ul class="navbar-user">
-                        <router-link id="nav-login" target="_blank" to="/userLogin">登录</router-link>
-                        <router-link id="nav-register" target="_blank" to="https://www.baidu.com/">注册</router-link>
+                        <router-link id="nav-login" target="_self" to="/userLogin">登录</router-link>
+                        <router-link id="nav-register" target="_self" to="/userRegister">注册</router-link>
                     </ul>
                 </div>
             </el-header>
@@ -30,12 +30,7 @@
 <script>
     export default {
         name: "Index",
-        methods: {
-            pushLogin() {
-                console.log(this.$route.path + '/userLogin')
-                return this.$route.path + '/userLogin'
-            }
-        }
+        methods: {}
     }
 </script>
 

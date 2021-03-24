@@ -8,6 +8,9 @@
                 <div class="avatar_box">
                     <img alt="" src="../../assets/logo.png">
                 </div>
+                <el-link :underline="false" @click="register" class="register-link" style="font-size: 0.8rem" type="danger">
+                    没有账号？点此注册
+                </el-link>
                 <el-form :model="this.loginForm" :rules="this.loginFormRules" class="login_form" label-width="0"
                          ref="loginFormRef">
                     <el-form-item prop="username">
@@ -17,11 +20,6 @@
                     <el-form-item prop="password">
                         <el-input clearable placeholder="请输入密码" prefix-icon="icar_user iconmima"
                                   type="password" v-model="loginForm.password"></el-input>
-                    </el-form-item>
-                    <el-form-item class="register-link">
-                        <el-link :underline="false" @click="register" style="font-size: 0.8rem;margin-top: 5px" type="danger">
-                            没有账号？点此注册
-                        </el-link>
                     </el-form-item>
                     <el-form-item class="btns">
                         <el-button @click="login" class="btn-login" type="primary">登录</el-button>
@@ -47,14 +45,18 @@
                     ],
                     password: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min:6,max:18,message: '密码不得少于6位，不多于18位',trigger: 'blur'}
+                        {min: 6, max: 18, message: '密码不得少于6位，不多于18位', trigger: 'blur'}
                     ]
                 },
             }
         },
         methods: {
-            async login() {
-                await this.$router.push('/userHome')
+            login() {
+                this.$refs.loginFormRef.validate(async valid => {
+                    if (!valid) return
+                    await this.$router.push('/userHome')
+                })
+
             },
             async register() {
                 await this.$router.push('/userRegister')
@@ -93,15 +95,15 @@
     }
 
     .avatar_box {
+        position: absolute;
+        top: 20%;
+        left: 50%;
         height: 130px;
         width: 130px;
         border: solid 1px #eee;
         border-radius: 50%;
         padding: 10px;
         box-shadow: 0 0 10px #eee;
-        position: absolute;
-        top: 25%;
-        left: 50%;
         transform: translate(-50%, -50%);
         background-color: #fff;
 
@@ -111,6 +113,12 @@
             border-radius: 50%;
             background-color: #eee;
         }
+    }
+
+    .register-link {
+        position: absolute;
+        top: 36%;
+        right: 20%;
     }
 
     .login_form {
@@ -124,12 +132,6 @@
         /deep/ .el-input__inner {
             border-radius: 0;
         }
-    }
-
-    .register-link {
-        position: absolute;
-        top: 30%;
-        padding-left: 35%;
     }
 
     .btns {

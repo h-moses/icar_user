@@ -19,23 +19,26 @@
                     </span>
                 </div>
                 <div class="form-content">
-                    <el-form class="register-form" :model="registerForm" :rules="registerFormRules" ref="registerFormRef">
+                    <el-form :model="registerForm" :rules="registerFormRules" class="register-form" ref="registerFormRef">
                         <el-form-item prop="username">
-                            <el-input v-model="registerForm.username" placeholder="用户名" prefix-icon="icar_user iconyonghu" clearable></el-input>
+                            <el-input clearable placeholder="用户名" prefix-icon="icar_user iconyonghu" v-model="registerForm.username"></el-input>
                         </el-form-item>
                         <el-form-item prop="password">
-                            <el-input v-model="registerForm.password" placeholder="密码不少于6位" prefix-icon="icar_user iconmima" type="password" show-password clearable></el-input>
+                            <el-input clearable placeholder="密码不少于6位" prefix-icon="icar_user iconmima" show-password
+                                      type="password" v-model="registerForm.password"></el-input>
                         </el-form-item>
                         <el-form-item prop="userphone">
-                            <el-input v-model="registerForm.userphone" placeholder="手机" prefix-icon="icar_user iconshumatubiaozhizuochunsezhuanqu-" clearable></el-input>
+                            <el-input clearable placeholder="手机" prefix-icon="icar_user iconshumatubiaozhizuochunsezhuanqu-"
+                                      v-model="registerForm.userphone"></el-input>
                         </el-form-item>
                         <el-form-item prop="email">
-                            <el-input v-model="registerForm.email" placeholder="邮箱" prefix-icon="icar_user iconshuangsechangyongtubiao-" clearable></el-input>
+                            <el-input clearable placeholder="邮箱" prefix-icon="icar_user iconshuangsechangyongtubiao-"
+                                      v-model="registerForm.email"></el-input>
                         </el-form-item>
                     </el-form>
                 </div>
                 <div class="form-btn">
-                    <el-button class="register-btn" type="primary" @click="registerUser">注册</el-button>
+                    <el-button @click="registerUser" class="register-btn" type="primary">注册</el-button>
                 </div>
             </div>
         </div>
@@ -64,26 +67,26 @@
             };
             return {
                 registerForm: {
-                    username:'',
-                    userphone:'',
-                    password:'',
-                    email:''
+                    username: '',
+                    userphone: '',
+                    password: '',
+                    email: ''
                 },
                 registerFormRules: {
                     username: [
                         {required: true, message: '请输入用户名', trigger: 'blur'},
                     ],
                     userphone: [
-                        {required: true,message: '请输入手机',trigger: 'blur'},
-                        {validator: checkPhone,trigger: 'blur'}
+                        {required: true, message: '请输入手机', trigger: 'blur'},
+                        {validator: checkPhone, trigger: 'blur'}
                     ],
                     password: [
-                        {required: true,message: '请输入密码',trigger: 'blur'},
-                        {min:6,max:18,message: '密码不得少于6位，不多于18位',trigger: 'blur'}
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                        {min: 6, max: 18, message: '密码不得少于6位，不多于18位', trigger: 'blur'}
                     ],
                     email: [
-                        {required: true,message: '请输入邮箱',trigger:'blur'},
-                        {validator:checkEmail,trigger: 'blur'}
+                        {required: true, message: '请输入邮箱', trigger: 'blur'},
+                        {validator: checkEmail, trigger: 'blur'}
                     ]
                 }
             }
@@ -121,7 +124,7 @@
 
             .register-introduce {
                 display: flex;
-                margin-left: 20%;
+                margin-left: 10%;
                 align-items: center;
 
                 .register-logo {
