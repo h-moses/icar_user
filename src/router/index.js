@@ -4,6 +4,7 @@ import Index from "../views/Index";
 import UserLogin from "../views/user/UserLogin";
 import UserRegister from "../views/user/UserRegister";
 import UserHome from "../views/user/UserHome";
+import SubmitOrder from "../components/order/SubmitOrder";
 
 Vue.use(VueRouter)
 
@@ -26,9 +27,18 @@ const routes = [
     {
         path: '/userHome',
         name: 'UserHome',
+        // redirect: '/index',
         component: UserHome,
         children: [
-
+            {
+                path: '/index',
+                name: ''
+            },
+            {
+                path: '/submit',
+                name: 'SubmitOrder',
+                component:SubmitOrder
+            }
         ]
     }
 ]

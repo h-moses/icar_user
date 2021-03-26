@@ -1,73 +1,59 @@
 <template>
     <el-container class="home-container">
-        <el-aside class="home-aside" width="200px">
-            <div class="aside-brand">
-                <img alt="" class="aside-logo" src="../../assets/logo.png"/>
-                <span class="aside-title">驭鹰</span>
+        <el-header class="home-header" style="height:50px">
+            <div class="header-brand">
+                <img alt="" class="header-logo" src="../../assets/logo.png"/>
+                <span class="header-title">驭鹰</span>
             </div>
-            <el-menu class="aside-menu" :default-active="activePath" background-color="#EDF3FF" active-text-color="#409eff" router text-color="#000000" unique-opened>
+            <el-menu :default-active="activePath" class="header-menu" mode="horizontal" text-color="#000000" router unique-opened>
                 <el-menu-item class="menu-item" index="/index">
                     <template slot="title">
-                        <i class="icar_user iconshouye1"/>
                         <span class="menu-title">首页</span>
-                    </template>
-                </el-menu-item>
-                <el-menu-item class="menu-item" index="/personalInfo">
-                    <template slot="title">
-                        <i class="icar_user icongerenziliao"/>
-                        <span class="menu-title">个人信息</span>
                     </template>
                 </el-menu-item>
                 <el-menu-item class="menu-item" index="/drivingWarning">
                     <template slot="title">
-                        <i class="icar_user icon-yujingyucefenxi"/>
                         <span class="menu-title">行车预警</span>
                     </template>
                 </el-menu-item>
                 <el-menu-item class="menu-item" index="/drivingVideo">
                     <template slot="title">
-                        <i class="icar_user iconshipin2"/>
                         <span class="menu-title">行车视频</span>
                     </template>
                 </el-menu-item>
-                <el-submenu class="menu-item" index="5">
+                <el-submenu class="order-submenu" index="5">
                     <template slot="title">
-                        <i class="icar_user icondrxx66"/>
                         <span class="menu-title">个人工单</span>
                     </template>
-                    <el-menu-item index="/submitOrder">提交工单</el-menu-item>
-                    <el-menu-item index="/checkOrder">查看工单</el-menu-item>
+                    <el-menu-item class="menu-item" index="/submit">提交工单</el-menu-item>
+                    <el-menu-item class="menu-item" index="/checkOrder">查看工单</el-menu-item>
                 </el-submenu>
             </el-menu>
-        </el-aside>
-        <el-container>
-            <el-header class="home-header" style="height:50px">
-                <div class="current-time">当前时间：{{currentTime | formatDate}}</div>
-                <div class="header-avatar">
-                    <el-popover class="popover-avatar" placement="bottom-start" trigger="hover" width="300">
-                        <div class="popover-content">
-                            <el-row :gutter="3" justify="space-between" type="flex">
-                                <el-col :span="4">
-                                    <el-avatar size="large"
-                                               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                                </el-col>
-                                <el-col :span="20">
-                                    <div class="username">用户名：h_admin</div>
-                                    <div class="userID">账号：709820314</div>
-                                </el-col>
-                            </el-row>
-                            <el-divider/>
-                            <el-button @click="logout" class="btn-logout">退出登录</el-button>
-                        </div>
-                        <el-avatar class="reference-avatar" slot="reference"
-                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                    </el-popover>
-                </div>
-            </el-header>
-            <el-main class="home-main">
-                <router-view/>
-            </el-main>
-        </el-container>
+            <div class="current-time">当前时间：{{currentTime | formatDate}}</div>
+            <div class="header-avatar">
+                <el-popover class="popover-avatar" placement="bottom-start" trigger="hover" width="300">
+                    <div class="popover-content">
+                        <el-row :gutter="3" justify="space-between" type="flex">
+                            <el-col :span="4">
+                                <el-avatar size="large"
+                                           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                            </el-col>
+                            <el-col :span="20">
+                                <div class="username">用户名：h_admin</div>
+                                <div class="userID">账号：709820314</div>
+                            </el-col>
+                        </el-row>
+                        <el-divider/>
+                        <el-button @click="logout" class="btn-logout">退出登录</el-button>
+                    </div>
+                    <el-avatar class="reference-avatar" slot="reference"
+                               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                </el-popover>
+            </div>
+        </el-header>
+        <el-main class="home-main">
+            <router-view/>
+        </el-main>
     </el-container>
 </template>
 
@@ -82,11 +68,11 @@
         data() {
             return {
                 activePath: '',
-                currentTime
+                currentTime,
             }
         },
         filters: {
-            formatDate:function (value) {
+            formatDate: function (value) {
                 const date = new Date(value);
                 const year = date.getFullYear();
                 const month = padDate(date.getMonth() + 1);
@@ -105,8 +91,8 @@
         mounted() {
             const _this = this;
             this.timer = setInterval(function () {
-              _this.currentTime = new Date()
-          })
+                _this.currentTime = new Date()
+            })
         },
         beforeDestroy() {
             if (this.timer) {
@@ -119,6 +105,9 @@
             },
             logout() {
 
+            },
+            changeLang() {
+                this.locale = 'en'
             }
         }
     }
@@ -129,65 +118,94 @@
         width: 100%;
         height: 100%;
 
-        .home-aside {
-            height: 100%;
-            background-color: #EDF3FF;
+        .home-header {
+            /*display: flex;*/
+            /*justify-content: flex-end;*/
+            /*background-color: #EDF3FF;*/
+            display: flex;
+            box-shadow: 0 10px 10px -10px #CCD0D3;
 
-            .aside-brand {
-                width: 200px;
+            .header-brand {
+                width: 130px;
                 height: 50px;
-                /*margin-left: 25px;*/
                 display: inline-flex;
-                justify-content: center;
+                justify-content: flex-start;
                 align-items: center;
 
-                .aside-logo {
+                .header-logo {
                     width: 40px;
                     height: 40px;
                 }
 
-                .aside-title {
-                    margin-left: 20px;
+                .header-title {
+                    margin-left: 10px;
                     font-size: 25px;
                     color: #6C75D1;
                 }
             }
 
-            .aside-menu {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
+            .header-menu {
+                width: 400px;
+                height: 50px;
+                box-sizing: border-box;
+                display: inline-flex;
+                align-items: center;
 
                 .menu-item {
                     width: 100%;
+                    height: 50px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
 
                     .menu-title {
-                        margin-left: 20px;
+                        height: 50px;
+                        display: flex;
+                        align-items: center;
+                        font-size: 13px;
+                        font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
+                    }
+
+                    .menu-title:hover {
+                        color: #6C75D1;
+                    }
+                }
+
+
+                .order-submenu {
+
+                    /deep/ .el-submenu__title {
+                        height: 50px;
+                        display: flex;
+                        align-items: center;
+                        font-size: 13px;
+                        font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
+
+                        .menu-title:hover {
+                            color: #6C75D1;
+                        }
                     }
                 }
             }
-        }
-
-        /deep/ .home-header {
-            background-color: #ffffff;
-            display: flex;
-            justify-content: flex-end;
-            /*background-color: #EDF3FF;*/
-            box-shadow: 0 10px 10px -10px #CCD0D3;
 
             .current-time {
-                margin-right: 20px;
-                display: flex;
+                position: absolute;
+                right: 10%;
+                height: 50px;
+                /*margin-left: 100px;*/
+                /*margin-right: 20px;*/
+                display: inline-flex;
                 align-items: center;
-                font-size: 14px;
-                font-family: "微软雅黑",sans-serif;
-
-                color: #6C75D1;
+                font-size: 13px;
+                font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
+                /*color: #6C75D1;*/
             }
 
             .header-avatar {
+                position: absolute;
+                right: 1%;
                 width: 50px;
-                height: 100%;
+                height: 50px;
                 display: inline-flex;
                 justify-content: center;
                 align-items: center;
@@ -195,21 +213,26 @@
                 .popover-avatar {
                     width: 40px;
                     height: 40px;
+
+                    /deep/ .el-divider--horizontal {
+                        margin: 0;
+                    }
                 }
+
+
             }
         }
 
-
-        .home-main {
-            background-color: #cccccc;
-            opacity: 0.3;
+        /deep/ .home-main {
+            background-color: #eaedf1;
+            padding: 0;
         }
-
     }
 
     .el-popover {
         .popover-content {
-            font-size: 12px;
+            font-size: 13px;
+            font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
 
             .userID, .username {
                 margin: 10px 0 0 10px;
@@ -224,6 +247,13 @@
                 border: 0;
                 border-radius: 0;
             }
+        }
+    }
+
+    .el-menu--popup {
+
+        .menu-item:hover {
+            background-color: #F4F6F7;
         }
     }
 </style>
