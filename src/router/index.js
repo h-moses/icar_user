@@ -5,6 +5,10 @@ import UserLogin from "../views/user/UserLogin";
 import UserRegister from "../views/user/UserRegister";
 import UserHome from "../views/user/UserHome";
 import SubmitOrder from "../components/order/SubmitOrder";
+import CheckOrder from "../components/order/CheckOrder";
+import HomePage from "../components/HomePage";
+import DrivingVideo from "../components/video/DrivingVideo";
+import DrivingWarning from "../components/warning/DrivingWarning";
 
 Vue.use(VueRouter)
 
@@ -27,17 +31,33 @@ const routes = [
     {
         path: '/userHome',
         name: 'UserHome',
-        // redirect: '/index',
+        redirect: '/homePage',
         component: UserHome,
         children: [
             {
-                path: '/index',
-                name: ''
+                path: '/homePage',
+                name: 'HomePage',
+                component: HomePage
             },
             {
-                path: '/submit',
+                path: '/drivingWarning',
+                name: 'DrivingWarning',
+                component: DrivingWarning
+            },
+            {
+                path: '/drivingVideo',
+                name: 'DrivingVideo',
+                component: DrivingVideo
+            },
+            {
+                path: '/submitOrder',
                 name: 'SubmitOrder',
-                component:SubmitOrder
+                component: SubmitOrder
+            },
+            {
+                path: '/checkOrder',
+                name: 'CheckOrder',
+                component: CheckOrder
             }
         ]
     }

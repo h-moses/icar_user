@@ -8,10 +8,9 @@
         </el-breadcrumb>
 
         <el-card>
-            <el-page-header @back="goBack" content="提交工单"/>
-            <el-row :gutter="20">
-                <el-col :span="20">
-                    <el-form id="submit-form" :model="submitForm" :rules="submitFormRules" ref="submitFormRef">
+            <el-row id="card-row" :gutter="0">
+                <el-col :span="15">
+                    <el-form :model="submitForm" :rules="submitFormRules" id="submit-form" ref="submitFormRef">
                         <el-input name="token" type="hidden" v-model="token"/>
                         <el-row id="user-row">
                             <el-form-item class="row-item" prop="username">
@@ -26,51 +25,51 @@
                         <el-row id="title-row">
                             <el-form-item class="row-item" prop="ordertitle">
                                 <div class="item-label">主题</div>
-                                <el-input v-model="submitForm.ordertitle" placeholder="请输入工单主题" maxlength="60" show-word-limit clearable/>
+                                <el-input clearable maxlength="60" placeholder="请输入工单主题" show-word-limit v-model="submitForm.ordertitle"/>
                             </el-form-item>
                         </el-row>
                         <el-row id="service-row">
                             <el-form-item class="row-item" prop="servicelabel">
                                 <div class="item-label">服务标签</div>
-                                <el-select v-model="submitForm.servicelabel" placeholder="请选择服务标签">
-                                    <el-option-group v-for="group in serviceLabels" :key="group.label" :label="group.label">
-                                        <el-option v-for="item in group.options" :key="item.value" :label="item.value" :value="item.value"/>
+                                <el-select placeholder="请选择服务标签" v-model="submitForm.servicelabel">
+                                    <el-option-group :key="group.label" :label="group.label" v-for="group in serviceLabels">
+                                        <el-option :key="item.value" :label="item.value" :value="item.value" v-for="item in group.options"/>
                                     </el-option-group>
                                 </el-select>
                             </el-form-item>
                             <el-form-item class="row-item" prop="servicelabel">
                                 <div class="item-label">工单优先级</div>
-                                <el-select v-model="submitForm.orderpriority" placeholder="中">
-                                    <el-option v-for="item in priorities" :key="item.value" :label="item.value" :value="item.value"/>
+                                <el-select placeholder="中" v-model="submitForm.orderpriority">
+                                    <el-option :key="item.value" :label="item.value" :value="item.value" v-for="item in priorities"/>
                                 </el-select>
                             </el-form-item>
                         </el-row>
                         <el-row id="content-row">
                             <el-form-item class="row-item" prop="orderContent">
                                 <div class="item-label">工单内容</div>
-                                <el-input type="textarea" v-model="submitForm.orderContent" rows="10" maxlength="400" clearable show-word-limit/>
+                                <el-input clearable maxlength="400" rows="10" show-word-limit type="textarea" v-model="submitForm.orderContent"/>
                             </el-form-item>
                         </el-row>
                         <el-row id="image-row">
                             <el-form-item class="row-item" prop="orderimages">
                                 <div class="item-label">上传材料</div>
                                 <el-upload
-                                        class="upload-image"
-                                        ref="uploadRef"
-                                        action="#"
-                                        accept="image/jpeg,image/png"
                                         :auto-upload="false"
-                                        :on-preview="handlePreview"
+                                        :file-list="submitForm.orderimages"
+                                        :limit="3"
                                         :on-change="handleChange"
                                         :on-exceed="handleExceed"
-                                        :file-list="submitForm.orderimages"
+                                        :on-preview="handlePreview"
+                                        accept="image/jpeg,image/png"
+                                        action="#"
+                                        class="upload-image"
                                         list-type="picture"
-                                        :limit="3"
-                                        multiple>
+                                        multiple
+                                        ref="uploadRef">
                                     <el-button size="small" type="primary">点击上传</el-button>
-                                    <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+                                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb。最多上传3张图片</div>
                                 </el-upload>
-                                <el-button class="submit-btn" size="small" type="primary" @click="submit">提交</el-button>
+                                <el-button @click="submit" class="submit-btn" size="small" type="primary">提交</el-button>
                                 <el-dialog :visible.sync="dialogVisible">
                                     <img :src="dialogImageUrl" alt="" width="100%">
                                 </el-dialog>
@@ -78,7 +77,24 @@
                         </el-row>
                     </el-form>
                 </el-col>
-                <el-col :span="4"></el-col>
+                <el-col :span="7">
+                    <el-collapse id="recent-order" v-model="activeName">
+                        <el-collapse-item class="order-item" title="最近工单" name="1">
+                            <el-table :data="recentOrder">
+                                <el-table-column prop="feedbackID" label="工单号" width="70px" align="center"></el-table-column>
+                                <el-table-column prop="feedbackTitle" label="主题" width="140px" align="center"></el-table-column>
+                                <el-table-column prop="feedBackState" label="状态" align="center">
+                                    <template slot-scope="scope">
+                                        <el-tag v-if="scope.row.feedbackState === '已提交'" type="success" size="small" effect="plain">已提交</el-tag>
+                                        <el-tag v-else-if="scope.row.feedbackState === '处理中'" type="warning" size="small" effect="plain">处理中</el-tag>
+                                        <el-tag v-else type="info" size="small" effect="plain">已关闭</el-tag>
+                                    </template>
+                                </el-table-column>
+                                <el-table-column prop="submitTime" label="时间" align="center"></el-table-column>
+                            </el-table>
+                        </el-collapse-item>
+                    </el-collapse>
+                </el-col>
             </el-row>
         </el-card>
     </div>
@@ -91,17 +107,15 @@
             return {
                 token: '',
                 submitForm: {
-                    username:'h_admin',
-                    userphone:'19858160932',
-                    ordertitle:'',
-                    servicelabel:'',
+                    username: 'h_admin',
+                    userphone: '19858160932',
+                    ordertitle: '',
+                    servicelabel: '',
                     orderpriority: '',
-                    orderContent:'',
+                    orderContent: '',
                     orderimages: []
                 },
-                submitFormRules: {
-
-                },
+                submitFormRules: {},
                 serviceLabels: [
                     {
                         label: '识别预警',
@@ -155,7 +169,34 @@
                     }
                 ],
                 dialogVisible: false,
-                dialogImageUrl: ''
+                dialogImageUrl: '',
+                activeName: '1',
+                recentOrder: [
+                    {
+                        feedbackID: '1',
+                        feedbackTitle: '系统故障',
+                        feedbackState: '处理中',
+                        submitTime: '1月前'
+                    },
+                    {
+                        feedbackID: '2',
+                        feedbackTitle: '系统故障',
+                        feedbackState: '已提交',
+                        submitTime: '1月前'
+                    },
+                    {
+                        feedbackID: '3',
+                        feedbackTitle: '系统故障',
+                        feedbackState: '已关闭',
+                        submitTime: '1月前'
+                    },
+                    {
+                        feedbackID: '4',
+                        feedbackTitle: '系统故障',
+                        feedbackState: '处理中',
+                        submitTime: '1月前'
+                    }
+                ]
             }
         },
         created() {
@@ -172,9 +213,9 @@
                     return false
                 }
             },
-            handleChange(file,fileList) {
+            handleChange(file, fileList) {
                 if (fileList.length > 0) {
-                    const isLt1M = file.size / 1024  < 500
+                    const isLt1M = file.size / 1024 < 500
                     if (!isLt1M) {
                         this.$message.error("上传图片大小不能超过500kb")
                         this.handleRemove(file)
@@ -187,8 +228,9 @@
             goBack() {
                 this.$router.back()
             },
-            submit() {
-
+            async submit() {
+                this.$message.success("提交成功")
+                await this.$router.push('/checkOrder')
             }
         }
     }
@@ -203,6 +245,12 @@
         margin-top: 15px;
         height: 100%;
 
+        #card-row {
+            display: flex;
+            padding: 0 40px;
+            justify-content: space-around;
+        }
+
         #submit-form {
             .row-item {
                 display: inline-flex;
@@ -216,6 +264,7 @@
                     height: 32px;
                 }
             }
+
             .row-item:not(:first-child) {
                 margin-left: 100px;
             }
@@ -228,7 +277,7 @@
         }
 
         #title-row {
-             .el-input {
+            .el-input {
                 width: 600px;
             }
         }
@@ -243,9 +292,6 @@
 
             /deep/ .el-form-item__content {
                 width: 700px;
-                /*display: flex;*/
-                /*flex-direction: row;*/
-                /*justify-content: space-between;*/
 
                 .upload-image {
                     display: inline-flex;
@@ -259,7 +305,27 @@
                     right: 10px;
                 }
             }
+        }
 
+        #recent-order {
+            margin-top: 40px;
+            border: 1px solid #F5F5F5;
+
+            /deep/ .el-collapse-item__header {
+                background-color: #F5F5F5;
+                width: 396px;
+                height: 40px;
+                display: flex;
+                justify-content: space-around;
+
+                .el-collapse-item__arrow {
+                    margin: 0 0 0 250px;
+                }
+            }
+
+            /deep/ .el-collapse-item__content {
+                padding-bottom: 0;
+            }
 
         }
     }

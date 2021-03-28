@@ -5,8 +5,8 @@
                 <img alt="" class="header-logo" src="../../assets/logo.png"/>
                 <span class="header-title">驭鹰</span>
             </div>
-            <el-menu :default-active="activePath" class="header-menu" mode="horizontal" text-color="#000000" router unique-opened>
-                <el-menu-item class="menu-item" index="/index">
+            <el-menu :default-active="activePath" class="header-menu" mode="horizontal" router text-color="#000000" unique-opened>
+                <el-menu-item class="menu-item" index="/homePage">
                     <template slot="title">
                         <span class="menu-title">首页</span>
                     </template>
@@ -21,11 +21,11 @@
                         <span class="menu-title">行车视频</span>
                     </template>
                 </el-menu-item>
-                <el-submenu class="order-submenu" index="5">
+                <el-submenu class="order-submenu" index="/order">
                     <template slot="title">
                         <span class="menu-title">个人工单</span>
                     </template>
-                    <el-menu-item class="menu-item" index="/submit">提交工单</el-menu-item>
+                    <el-menu-item class="menu-item" index="/submitOrder">提交工单</el-menu-item>
                     <el-menu-item class="menu-item" index="/checkOrder">查看工单</el-menu-item>
                 </el-submenu>
             </el-menu>
@@ -60,7 +60,7 @@
 <script>
     const currentTime = new Date()
     //在月份、日期、小时等小于10前面补0
-    const padDate = function (value) {
+    const padDate = (value) => {
         return value < 10 ? '0' + value : value;
     };
     export default {
@@ -72,7 +72,7 @@
             }
         },
         filters: {
-            formatDate: function (value) {
+            formatDate: (value) => {
                 const date = new Date(value);
                 const year = date.getFullYear();
                 const month = padDate(date.getMonth() + 1);
@@ -106,9 +106,6 @@
             logout() {
 
             },
-            changeLang() {
-                this.locale = 'en'
-            }
         }
     }
 </script>
@@ -119,9 +116,6 @@
         height: 100%;
 
         .home-header {
-            /*display: flex;*/
-            /*justify-content: flex-end;*/
-            /*background-color: #EDF3FF;*/
             display: flex;
             box-shadow: 0 10px 10px -10px #CCD0D3;
 
