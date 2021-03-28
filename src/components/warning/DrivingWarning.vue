@@ -1,15 +1,12 @@
 <template>
     <div id="driving-warning">
             <!--    面包屑导航区-->
-            <el-breadcrumb separator-class="el-icon-arrow-right">
-                <el-breadcrumb-item :to="{path:'/homePage'}">首页</el-breadcrumb-item>
-                <el-breadcrumb-item>预警管理</el-breadcrumb-item>
-            </el-breadcrumb>
+<!--            <el-breadcrumb separator-class="el-icon-arrow-right">-->
+<!--                <el-breadcrumb-item :to="{path:'/homePage'}">首页</el-breadcrumb-item>-->
+<!--                <el-breadcrumb-item>预警管理</el-breadcrumb-item>-->
+<!--            </el-breadcrumb>-->
             <el-card v-loading="loading">
                 <el-form :inline="true" :model="queryWarningForm" ref="searchWarningFormRef">
-                    <el-form-item label="登录账号" prop="user_name">
-                        <el-input placeholder="请输入登录账号" v-model="queryWarningForm.user_name"></el-input>
-                    </el-form-item>
                     <el-form-item label="预警时间" prop="selectedDate">
                         <el-date-picker
                                 end-placeholder="结束日期"
@@ -113,7 +110,7 @@
 
 <style lang="less" scoped>
     #driving-warning {
-        padding: 20px;
+        padding: 130px 20px 0;
     }
 
     .el-card {

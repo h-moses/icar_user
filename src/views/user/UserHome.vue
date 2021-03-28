@@ -5,30 +5,30 @@
                 <img alt="" class="header-logo" src="../../assets/logo.png"/>
                 <span class="header-title">驭鹰</span>
             </div>
-            <el-menu :default-active="activePath" class="header-menu" mode="horizontal" router text-color="#000000" unique-opened>
-                <el-menu-item class="menu-item" index="/homePage">
-                    <template slot="title">
-                        <span class="menu-title">首页</span>
-                    </template>
-                </el-menu-item>
-                <el-menu-item class="menu-item" index="/drivingWarning">
-                    <template slot="title">
-                        <span class="menu-title">行车预警</span>
-                    </template>
-                </el-menu-item>
-                <el-menu-item class="menu-item" index="/drivingVideo">
-                    <template slot="title">
-                        <span class="menu-title">行车视频</span>
-                    </template>
-                </el-menu-item>
-                <el-submenu class="order-submenu" index="/order">
-                    <template slot="title">
-                        <span class="menu-title">个人工单</span>
-                    </template>
-                    <el-menu-item class="menu-item" index="/submitOrder">提交工单</el-menu-item>
-                    <el-menu-item class="menu-item" index="/checkOrder">查看工单</el-menu-item>
-                </el-submenu>
-            </el-menu>
+<!--            <el-menu :default-active="activePath" class="header-menu" mode="horizontal" router text-color="#000000" unique-opened>-->
+<!--                <el-menu-item class="menu-item" index="/homePage">-->
+<!--                    <template slot="title">-->
+<!--                        <span class="menu-title">首页</span>-->
+<!--                    </template>-->
+<!--                </el-menu-item>-->
+<!--                <el-menu-item class="menu-item" index="/drivingWarning">-->
+<!--                    <template slot="title">-->
+<!--                        <span class="menu-title">行车预警</span>-->
+<!--                    </template>-->
+<!--                </el-menu-item>-->
+<!--                <el-menu-item class="menu-item" index="/drivingVideo">-->
+<!--                    <template slot="title">-->
+<!--                        <span class="menu-title">行车视频</span>-->
+<!--                    </template>-->
+<!--                </el-menu-item>-->
+<!--                <el-submenu class="order-submenu" index="/order">-->
+<!--                    <template slot="title">-->
+<!--                        <span class="menu-title">个人工单</span>-->
+<!--                    </template>-->
+<!--                    <el-menu-item class="menu-item" index="/submitOrder">提交工单</el-menu-item>-->
+<!--                    <el-menu-item class="menu-item" index="/checkOrder">查看工单</el-menu-item>-->
+<!--                </el-submenu>-->
+<!--            </el-menu>-->
             <div class="current-time">当前时间：{{currentTime | formatDate}}</div>
             <div class="header-avatar">
                 <el-popover class="popover-avatar" placement="bottom-start" trigger="hover" width="300">
@@ -52,8 +52,19 @@
             </div>
         </el-header>
         <el-main class="home-main">
+            <div id="main-head">
+                <h1 id="head-title">您好，{{this.userName}}</h1>
+                <el-tabs id="head-tab"  v-model="activeName" type="card" @tab-click="handleClick(activeName)">
+                    <el-tab-pane label="首页" name="homePage"></el-tab-pane>
+                    <el-tab-pane label="预警管理" name="drivingWarning">
+                    </el-tab-pane>
+                    <el-tab-pane label="视频管理" name="drivingVideo"></el-tab-pane>
+                    <el-tab-pane label="数据分析" name="DataAnalysis"></el-tab-pane>
+                </el-tabs>
+            </div>
             <router-view/>
         </el-main>
+
     </el-container>
 </template>
 
@@ -69,6 +80,8 @@
             return {
                 activePath: '',
                 currentTime,
+                activeName: '',
+                userName:''
             }
         },
         filters: {
@@ -106,6 +119,9 @@
             logout() {
 
             },
+            async handleClick(activeName) {
+                await this.$router.push(`/${activeName}`)
+            }
         }
     }
 </script>
@@ -118,6 +134,7 @@
         .home-header {
             display: flex;
             box-shadow: 0 10px 10px -10px #CCD0D3;
+            z-index: 9999;
 
             .header-brand {
                 width: 130px;
@@ -138,53 +155,53 @@
                 }
             }
 
-            .header-menu {
-                width: 400px;
-                height: 50px;
-                box-sizing: border-box;
-                display: inline-flex;
-                align-items: center;
+            /*.header-menu {*/
+            /*    width: 400px;*/
+            /*    height: 50px;*/
+            /*    box-sizing: border-box;*/
+            /*    display: inline-flex;*/
+            /*    align-items: center;*/
 
-                .menu-item {
-                    width: 100%;
-                    height: 50px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
+            /*    .menu-item {*/
+            /*        width: 100%;*/
+            /*        height: 50px;*/
+            /*        display: flex;*/
+            /*        justify-content: center;*/
+            /*        align-items: center;*/
 
-                    .menu-title {
-                        height: 50px;
-                        display: flex;
-                        align-items: center;
-                        font-size: 13px;
-                        font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
-                    }
+            /*        .menu-title {*/
+            /*            height: 50px;*/
+            /*            display: flex;*/
+            /*            align-items: center;*/
+            /*            font-size: 13px;*/
+            /*            font-family: "microsoft yahei", Arial, Helvetica, sans-serif;*/
+            /*        }*/
 
-                    .menu-title:hover {
-                        color: #6C75D1;
-                    }
-                }
+            /*        .menu-title:hover {*/
+            /*            color: #6C75D1;*/
+            /*        }*/
+            /*    }*/
 
 
-                .order-submenu {
+            /*    .order-submenu {*/
 
-                    /deep/ .el-submenu__title {
-                        height: 50px;
-                        display: flex;
-                        align-items: center;
-                        font-size: 13px;
-                        font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
+            /*        /deep/ .el-submenu__title {*/
+            /*            height: 50px;*/
+            /*            display: flex;*/
+            /*            align-items: center;*/
+            /*            font-size: 13px;*/
+            /*            font-family: "microsoft yahei", Arial, Helvetica, sans-serif;*/
 
-                        .menu-title:hover {
-                            color: #6C75D1;
-                        }
-                    }
-                }
-            }
+            /*            .menu-title:hover {*/
+            /*                color: #6C75D1;*/
+            /*            }*/
+            /*        }*/
+            /*    }*/
+            /*}*/
 
             .current-time {
                 position: absolute;
-                right: 10%;
+                right: 5%;
                 height: 50px;
                 /*margin-left: 100px;*/
                 /*margin-right: 20px;*/
@@ -218,8 +235,54 @@
         }
 
         /deep/ .home-main {
-            background-color: #eaedf1;
+            background-color: #F1F1F2;
             padding: 0;
+
+            #main-head {
+                position: absolute;
+                width: 100%;
+                height: 110px;
+                background-color: #ffffff;
+
+                #head-title {
+                    font-size: 16px;
+                    margin: 20px 0 0 20px;
+                }
+
+                #head-tab {
+                    position: absolute;
+                    bottom: 0;
+                    margin-left: 20px;
+                    border: 0;
+
+                    .el-tabs__header {
+                        margin-bottom: 0;
+
+                        .el-tabs__nav-wrap.is-top {
+                            margin: 0;
+                        }
+                    }
+
+                    .el-tabs__item {
+                        width: 180px;
+                        height: 45px;
+                        text-align: center;
+                        border: 0;
+                        border-right: 1px solid #c0c6cc;
+                        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+                        font-weight: bold;
+                    }
+
+                    .el-tabs__item:last-child {
+                        border-right: 0;
+                    }
+
+                    .el-tabs__item.is-active {
+                        border-top: 2px solid #0064C8;
+                        color: #0064C8;
+                    }
+                }
+            }
         }
     }
 

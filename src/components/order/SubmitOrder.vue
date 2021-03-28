@@ -1,11 +1,11 @@
 <template>
     <div id="submit-order">
         <!--    面包屑导航区-->
-        <el-breadcrumb separator-class="el-icon-arrow-right">
-            <el-breadcrumb-item :to="{path:'/userHome'}">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>个人工单</el-breadcrumb-item>
-            <el-breadcrumb-item>提交工单</el-breadcrumb-item>
-        </el-breadcrumb>
+<!--        <el-breadcrumb separator-class="el-icon-arrow-right">-->
+<!--            <el-breadcrumb-item :to="{path:'/userHome'}">首页</el-breadcrumb-item>-->
+<!--            <el-breadcrumb-item>个人工单</el-breadcrumb-item>-->
+<!--            <el-breadcrumb-item>提交工单</el-breadcrumb-item>-->
+<!--        </el-breadcrumb>-->
 
         <el-card>
             <el-row id="card-row" :gutter="0">
