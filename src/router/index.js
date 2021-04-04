@@ -9,6 +9,7 @@ import CheckOrder from "../components/order/CheckOrder";
 import HomePage from "../components/HomePage";
 import DrivingVideo from "../components/video/DrivingVideo";
 import DrivingWarning from "../components/warning/DrivingWarning";
+import DataAnalysis from "../components/analysis/DataAnalysis";
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
                 path: '/checkOrder',
                 name: 'CheckOrder',
                 component: CheckOrder
+            },
+            {
+                path: '/dataAnalysis',
+                name: 'DataAnalysis',
+                component: DataAnalysis
             }
         ]
     }

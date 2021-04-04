@@ -1,10 +1,10 @@
 <template>
     <div id="driving-video">
         <!--    面包屑导航区-->
-<!--        <el-breadcrumb separator-class="el-icon-arrow-right">-->
-<!--            <el-breadcrumb-item :to="{path:'/adminHome'}">首页</el-breadcrumb-item>-->
-<!--            <el-breadcrumb-item>视频管理</el-breadcrumb-item>-->
-<!--        </el-breadcrumb>-->
+        <!--        <el-breadcrumb separator-class="el-icon-arrow-right">-->
+        <!--            <el-breadcrumb-item :to="{path:'/adminHome'}">首页</el-breadcrumb-item>-->
+        <!--            <el-breadcrumb-item>视频管理</el-breadcrumb-item>-->
+        <!--        </el-breadcrumb>-->
         <el-card v-loading="loading">
             <el-form :inline="true" :model="videoForm" ref="searchUserFormRef">
                 <el-form-item label="视频编号" prop="video_id">
@@ -71,7 +71,7 @@
 
 <style lang="less" scoped>
     #driving-video {
-        padding: 130px 20px 0;
+        padding: 20px;
     }
 
     .el-card {

@@ -118,9 +118,8 @@
         .register-left {
             width: 50%;
             height: 100%;
-            display: inline-flex;
-            flex-direction: column;
-            background-color: #EDF3FF;
+            display: inline-block;
+            background-image: linear-gradient(150deg,#D0D3F0,rgba(130,138,211,0.8));
 
             .register-introduce {
                 display: flex;

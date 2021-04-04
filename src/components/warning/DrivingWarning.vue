@@ -1,50 +1,50 @@
 <template>
     <div id="driving-warning">
-            <!--    面包屑导航区-->
-<!--            <el-breadcrumb separator-class="el-icon-arrow-right">-->
-<!--                <el-breadcrumb-item :to="{path:'/homePage'}">首页</el-breadcrumb-item>-->
-<!--                <el-breadcrumb-item>预警管理</el-breadcrumb-item>-->
-<!--            </el-breadcrumb>-->
-            <el-card v-loading="loading">
-                <el-form :inline="true" :model="queryWarningForm" ref="searchWarningFormRef">
-                    <el-form-item label="预警时间" prop="selectedDate">
-                        <el-date-picker
-                                end-placeholder="结束日期"
-                                format="yyyy 年 MM 月 dd 日"
-                                placeholder="选择日期"
-                                range-separator="至"
-                                start-placeholder="开始日期"
-                                type="daterange"
-                                v-model="queryWarningForm.selectedDate"
-                                value-format="yyyy-MM-dd">
-                        </el-date-picker>
-                    </el-form-item>
-                    <el-form-item>
-                        <el-button @click="searchWarning" icon="el-icon-search" plain size="small" type="primary">查询</el-button>
-                    </el-form-item>
-                </el-form>
-                <el-table :data="this.warningList" border stripe v-loading="loading">
-                    <el-table-column align="center" label="序号" type="index" width="70px"></el-table-column>
-                    <el-table-column align="center" label="预警编号" prop="recordID" width="120px"></el-table-column>
-                    <el-table-column align="center" label="登录账号" prop="userID" width="120px"></el-table-column>
-                    <el-table-column align="center" label="预警时间" prop="alarmTime" width="180px"></el-table-column>
-                    <el-table-column align="center" label="预警地点" prop="location"></el-table-column>
-                    <el-table-column align="center" label="预警原因" prop="alarmReason"></el-table-column>
-                    <el-table-column align="center" label="视频编号" prop="video_id" width="120px">
-                        <template slot-scope="props">
-                            <el-link :underline="false" type="danger">
-                                <el-icon class="el-icon-link"/>
-                                {{props.row.video_id}}
-                            </el-link>
-                        </template>
-                    </el-table-column>
-                    <el-table-column align="center" label="操作">
-                        <template slot-scope="scope">
-                            <el-button @click="deleteUserById(scope.row.id)" icon="el-icon-edit" size="mini" type="warning">评定</el-button>
-                            <el-button @click="deleteWarning(scope.row)" icon="el-icon-delete" size="mini" type="danger">删除</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
+        <!--    面包屑导航区-->
+        <!--            <el-breadcrumb separator-class="el-icon-arrow-right">-->
+        <!--                <el-breadcrumb-item :to="{path:'/homePage'}">首页</el-breadcrumb-item>-->
+        <!--                <el-breadcrumb-item>预警管理</el-breadcrumb-item>-->
+        <!--            </el-breadcrumb>-->
+        <el-card v-loading="loading">
+            <el-form :inline="true" :model="queryWarningForm" ref="searchWarningFormRef">
+                <el-form-item label="预警时间" prop="selectedDate">
+                    <el-date-picker
+                            end-placeholder="结束日期"
+                            format="yyyy 年 MM 月 dd 日"
+                            placeholder="选择日期"
+                            range-separator="至"
+                            start-placeholder="开始日期"
+                            type="daterange"
+                            v-model="queryWarningForm.selectedDate"
+                            value-format="yyyy-MM-dd">
+                    </el-date-picker>
+                </el-form-item>
+                <el-form-item>
+                    <el-button @click="searchWarning" icon="el-icon-search" plain size="small" type="primary">查询</el-button>
+                </el-form-item>
+            </el-form>
+            <el-table :data="this.warningList" border stripe v-loading="loading">
+                <el-table-column align="center" label="序号" type="index" width="70px"></el-table-column>
+                <el-table-column align="center" label="预警编号" prop="recordID" width="120px"></el-table-column>
+                <el-table-column align="center" label="登录账号" prop="userID" width="120px"></el-table-column>
+                <el-table-column align="center" label="预警时间" prop="alarmTime" width="180px"></el-table-column>
+                <el-table-column align="center" label="预警地点" prop="location"></el-table-column>
+                <el-table-column align="center" label="预警原因" prop="alarmReason"></el-table-column>
+                <el-table-column align="center" label="视频编号" prop="video_id" width="120px">
+                    <template slot-scope="props">
+                        <el-link :underline="false" type="danger">
+                            <el-icon class="el-icon-link"/>
+                            {{props.row.video_id}}
+                        </el-link>
+                    </template>
+                </el-table-column>
+                <el-table-column align="center" label="操作">
+                    <template slot-scope="scope">
+                        <el-button @click="deleteUserById(scope.row.id)" icon="el-icon-edit" size="mini" type="warning">评定</el-button>
+                        <el-button @click="deleteWarning(scope.row)" icon="el-icon-delete" size="mini" type="danger">删除</el-button>
+                    </template>
+                </el-table-column>
+            </el-table>
         </el-card>
     </div>
 </template>
@@ -110,7 +110,7 @@
 
 <style lang="less" scoped>
     #driving-warning {
-        padding: 130px 20px 0;
+        padding: 20px;
     }
 
     .el-card {

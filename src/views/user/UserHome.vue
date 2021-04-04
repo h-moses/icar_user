@@ -1,67 +1,53 @@
 <template>
     <el-container class="home-container">
-        <el-header class="home-header" style="height:50px">
-            <div class="header-brand">
-                <img alt="" class="header-logo" src="../../assets/logo.png"/>
-                <span class="header-title">驭鹰</span>
-            </div>
-<!--            <el-menu :default-active="activePath" class="header-menu" mode="horizontal" router text-color="#000000" unique-opened>-->
-<!--                <el-menu-item class="menu-item" index="/homePage">-->
-<!--                    <template slot="title">-->
-<!--                        <span class="menu-title">首页</span>-->
-<!--                    </template>-->
-<!--                </el-menu-item>-->
-<!--                <el-menu-item class="menu-item" index="/drivingWarning">-->
-<!--                    <template slot="title">-->
-<!--                        <span class="menu-title">行车预警</span>-->
-<!--                    </template>-->
-<!--                </el-menu-item>-->
-<!--                <el-menu-item class="menu-item" index="/drivingVideo">-->
-<!--                    <template slot="title">-->
-<!--                        <span class="menu-title">行车视频</span>-->
-<!--                    </template>-->
-<!--                </el-menu-item>-->
-<!--                <el-submenu class="order-submenu" index="/order">-->
-<!--                    <template slot="title">-->
-<!--                        <span class="menu-title">个人工单</span>-->
-<!--                    </template>-->
-<!--                    <el-menu-item class="menu-item" index="/submitOrder">提交工单</el-menu-item>-->
-<!--                    <el-menu-item class="menu-item" index="/checkOrder">查看工单</el-menu-item>-->
-<!--                </el-submenu>-->
-<!--            </el-menu>-->
-            <div class="current-time">当前时间：{{currentTime | formatDate}}</div>
-            <div class="header-avatar">
-                <el-popover class="popover-avatar" placement="bottom-start" trigger="hover" width="300">
-                    <div class="popover-content">
-                        <el-row :gutter="3" justify="space-between" type="flex">
-                            <el-col :span="4">
-                                <el-avatar size="large"
-                                           src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                            </el-col>
-                            <el-col :span="20">
-                                <div class="username">用户名：h_admin</div>
-                                <div class="userID">账号：709820314</div>
-                            </el-col>
-                        </el-row>
-                        <el-divider/>
-                        <el-button @click="logout" class="btn-logout">退出登录</el-button>
+        <el-header id="home-header" style="height: 160px">
+            <div id="first-layer">
+                <div class="header-brand">
+                    <img alt="" class="header-logo" src="../../assets/logo.png"/>
+                    <span class="header-title">驭鹰</span>
+                </div>
+                <el-popover class="order-popover" width="50" trigger="hover" placement="bottom">
+                    <div class="popover-btn">
+                        <el-button class="submit-btn" @click="goSubmit">提交工单</el-button>
+                        <el-button class="check-btn" @click="goCheck">我的工单</el-button>
                     </div>
-                    <el-avatar class="reference-avatar" slot="reference"
-                               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                    <div class="popover-text" slot="reference">工单</div>
                 </el-popover>
+                <div class="current-time">当前时间：{{currentTime | formatDate}}</div>
+                <div class="header-avatar">
+                    <el-popover class="popover-avatar" placement="bottom-start" trigger="hover" width="300">
+                        <div class="popover-content">
+                            <el-row :gutter="3" justify="space-between" type="flex">
+                                <el-col :span="4">
+                                    <el-avatar size="large"
+                                               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                                </el-col>
+                                <el-col :span="20">
+                                    <div class="username">用户名：h_admin</div>
+                                    <div class="userID">账号：709820314</div>
+                                </el-col>
+                            </el-row>
+                            <el-divider/>
+                            <el-button @click="logout" class="btn-logout">退出登录</el-button>
+                        </div>
+                        <el-avatar class="reference-avatar" slot="reference"
+                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                    </el-popover>
+                </div>
             </div>
-        </el-header>
-        <el-main class="home-main">
-            <div id="main-head">
-                <h1 id="head-title">您好，{{this.userName}}</h1>
-                <el-tabs id="head-tab"  v-model="activeName" type="card" @tab-click="handleClick(activeName)">
+            <div id="main-head" >
+                <h1 id="head-title">您好，h_admin{{this.userName}}</h1>
+                <el-tabs id="head-tab" v-model="activeName" type="card" @tab-click="handleClick(activeName)">
                     <el-tab-pane label="首页" name="homePage"></el-tab-pane>
-                    <el-tab-pane label="预警管理" name="drivingWarning">
-                    </el-tab-pane>
+                    <el-tab-pane label="预警管理" name="drivingWarning"></el-tab-pane>
                     <el-tab-pane label="视频管理" name="drivingVideo"></el-tab-pane>
-                    <el-tab-pane label="数据分析" name="DataAnalysis"></el-tab-pane>
+                    <el-tab-pane label="数据分析" name="dataAnalysis"></el-tab-pane>
                 </el-tabs>
             </div>
+        </el-header>
+
+        <el-main class="home-main">
+
             <router-view/>
         </el-main>
 
@@ -81,7 +67,8 @@
                 activePath: '',
                 currentTime,
                 activeName: '',
-                userName:''
+                userName: '',
+                // isCollapsed: false,
             }
         },
         filters: {
@@ -98,7 +85,9 @@
             }
         },
         created() {
+            console.log("created")
             this.activePath = this.$route.path
+            this.activeName = this.$route.path.substring(1)
             this.getUserProfile()
         },
         mounted() {
@@ -107,6 +96,9 @@
                 _this.currentTime = new Date()
             })
         },
+        // updated() {
+        //     this.isCollapsed = !(this.$route.path === '/submitOrder' || this.$route.path === '/checkOrder');
+        // },
         beforeDestroy() {
             if (this.timer) {
                 clearInterval(this.timer)
@@ -121,6 +113,12 @@
             },
             async handleClick(activeName) {
                 await this.$router.push(`/${activeName}`)
+            },
+            async goSubmit() {
+                await this.$router.push('/submitOrder')
+            },
+            async goCheck() {
+                await this.$router.push('/checkOrder')
             }
         }
     }
@@ -131,117 +129,95 @@
         width: 100%;
         height: 100%;
 
-        .home-header {
+        #home-header {
+            width: 100%;
             display: flex;
+            justify-content: flex-end;
+            padding: 0;
             box-shadow: 0 10px 10px -10px #CCD0D3;
-            z-index: 9999;
 
-            .header-brand {
-                width: 130px;
+
+            #first-layer {
+                width: 100%;
                 height: 50px;
-                display: inline-flex;
-                justify-content: flex-start;
-                align-items: center;
+                border-bottom: 2px solid #EAEBF8;
 
-                .header-logo {
-                    width: 40px;
-                    height: 40px;
-                }
+                .header-brand {
+                    position: absolute;
+                    left: 2%;
+                    width: 130px;
+                    height: 50px;
+                    display: inline-flex;
+                    justify-content: flex-start;
+                    align-items: center;
 
-                .header-title {
-                    margin-left: 10px;
-                    font-size: 25px;
-                    color: #6C75D1;
-                }
-            }
+                    .header-logo {
+                        width: 40px;
+                        height: 40px;
+                    }
 
-            /*.header-menu {*/
-            /*    width: 400px;*/
-            /*    height: 50px;*/
-            /*    box-sizing: border-box;*/
-            /*    display: inline-flex;*/
-            /*    align-items: center;*/
-
-            /*    .menu-item {*/
-            /*        width: 100%;*/
-            /*        height: 50px;*/
-            /*        display: flex;*/
-            /*        justify-content: center;*/
-            /*        align-items: center;*/
-
-            /*        .menu-title {*/
-            /*            height: 50px;*/
-            /*            display: flex;*/
-            /*            align-items: center;*/
-            /*            font-size: 13px;*/
-            /*            font-family: "microsoft yahei", Arial, Helvetica, sans-serif;*/
-            /*        }*/
-
-            /*        .menu-title:hover {*/
-            /*            color: #6C75D1;*/
-            /*        }*/
-            /*    }*/
-
-
-            /*    .order-submenu {*/
-
-            /*        /deep/ .el-submenu__title {*/
-            /*            height: 50px;*/
-            /*            display: flex;*/
-            /*            align-items: center;*/
-            /*            font-size: 13px;*/
-            /*            font-family: "microsoft yahei", Arial, Helvetica, sans-serif;*/
-
-            /*            .menu-title:hover {*/
-            /*                color: #6C75D1;*/
-            /*            }*/
-            /*        }*/
-            /*    }*/
-            /*}*/
-
-            .current-time {
-                position: absolute;
-                right: 5%;
-                height: 50px;
-                /*margin-left: 100px;*/
-                /*margin-right: 20px;*/
-                display: inline-flex;
-                align-items: center;
-                font-size: 13px;
-                font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
-                /*color: #6C75D1;*/
-            }
-
-            .header-avatar {
-                position: absolute;
-                right: 1%;
-                width: 50px;
-                height: 50px;
-                display: inline-flex;
-                justify-content: center;
-                align-items: center;
-
-                .popover-avatar {
-                    width: 40px;
-                    height: 40px;
-
-                    /deep/ .el-divider--horizontal {
-                        margin: 0;
+                    .header-title {
+                        margin-left: 10px;
+                        font-size: 25px;
+                        color: #6C75D1;
                     }
                 }
 
+                .order-popover {
+                    position: absolute;
+                    right: 18%;
+                    width: 50px;
+                    height: 50px;
 
+                    .popover-text {
+                        font-size: 13px;
+                        width: 50px;
+                        height:50px;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    .popover-text:hover {
+                        color: #667eea;
+                    }
+                }
+
+                .current-time {
+                    position: absolute;
+                    right: 5%;
+                    height: 50px;
+                    display: inline-flex;
+                    align-items: center;
+                    font-size: 13px;
+                    font-family: "microsoft yahei", Arial, Helvetica, sans-serif;
+                }
+
+                .header-avatar {
+                    position: absolute;
+                    right: 1%;
+                    width: 50px;
+                    height: 50px;
+                    display: inline-flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    .popover-avatar {
+                        width: 40px;
+                        height: 40px;
+
+                        /deep/ .el-divider--horizontal {
+                            margin: 0;
+                        }
+                    }
+                }
             }
-        }
-
-        /deep/ .home-main {
-            background-color: #F1F1F2;
-            padding: 0;
 
             #main-head {
                 position: absolute;
                 width: 100%;
-                height: 110px;
+                height: 105px;
+                top: 55px;
                 background-color: #ffffff;
 
                 #head-title {
@@ -255,34 +231,47 @@
                     margin-left: 20px;
                     border: 0;
 
-                    .el-tabs__header {
+                    /deep/ .el-tabs__header {
                         margin-bottom: 0;
 
                         .el-tabs__nav-wrap.is-top {
                             margin: 0;
+                            padding: 0;
+                        }
+
+                        .el-tabs__nav-prev,.el-tabs__nav-next {
+                            visibility: hidden;
                         }
                     }
 
-                    .el-tabs__item {
+                    /deep/ .el-tabs__item {
                         width: 180px;
                         height: 45px;
                         text-align: center;
                         border: 0;
                         border-right: 1px solid #c0c6cc;
-                        font-family: -apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+                        font-family: -apple-system, BlinkMacSystemFont, Segoe UI, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Helvetica Neue, Helvetica, Arial, sans-serif;
                         font-weight: bold;
                     }
 
-                    .el-tabs__item:last-child {
+                    /deep/ .el-tabs__item:last-child {
                         border-right: 0;
                     }
 
-                    .el-tabs__item.is-active {
+                    /deep/ .el-tabs__item.is-active {
                         border-top: 2px solid #0064C8;
                         color: #0064C8;
                     }
                 }
             }
+
+        }
+
+
+        /deep/ .home-main {
+            background-color: #F1F1F2;
+            padding: 0;
+
         }
     }
 
@@ -312,5 +301,19 @@
         .menu-item:hover {
             background-color: #F4F6F7;
         }
+    }
+
+    .el-popover {
+        .submit-btn,.check-btn {
+            width: 100px;
+            height: 30px;
+            border: 0;
+            border-radius: 0;
+            margin: 0;
+        }
+    }
+
+    .isHidden {
+        visibility: hidden;
     }
 </style>

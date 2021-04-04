@@ -4,9 +4,9 @@
             <el-row>
                 <el-card id="assess-card" class="home-card">
                     <div id="basic-content">h_admin</div>
-                    <div id="assess-content">您目前的驾车评定等级为<span id="assess-degree">{{this.drivingDegree}}</span> </div>
+                    <div id="assess-content">您目前的驾车评定等级为<span id="assess-degree">{{this.drivingDegree}}</span></div>
                 </el-card>
-                <el-card id="data-record"  class="home-card">
+                <el-card id="data-record" class="home-card">
                     <div class="record-item">
                         <div class="item-title">预警总数</div>
                         <div class="item-content">0</div>
@@ -22,7 +22,8 @@
                 </el-card>
             </el-row>
             <el-card id="data-chart" class="home-card">
-
+                <h3 style="margin: 0">月度预警走势</h3>
+                <warning-chart class-name="warning-chart" style="width: 100%;height:370px"></warning-chart>
             </el-card>
         </el-col>
         <el-col :span="9">
@@ -60,8 +61,11 @@
 </template>
 
 <script>
+    import WarningChart from "./echarts/LineChart";
+
     export default {
         name: "HomePage",
+        components: {WarningChart},
         data() {
             return {
                 drivingDegree: 'A',
@@ -124,7 +128,7 @@
 
 <style lang="less" scoped>
     #home-page {
-        padding: 120px 20px 0;
+        padding: 20px;
 
         .el-row {
             display: flex;
@@ -144,7 +148,7 @@
 
         #assess-card {
             width: 40%;
-            height: 120px;
+            height: 150px;
             font-size: 20px;
             display: inline-block;
 
@@ -175,7 +179,7 @@
                 height: 80px;
                 flex: 1;
                 display: inline-block;
-                background-color: rgba(233,241,259,0.3);
+                background-color: rgba(233, 241, 259, 0.3);
                 font-size: 13px;
             }
 
@@ -194,7 +198,7 @@
         }
 
         #data-chart {
-            height: 300px;
+            height: 400px;
         }
     }
 </style>
