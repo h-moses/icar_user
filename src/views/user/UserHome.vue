@@ -1,6 +1,6 @@
 <template>
     <el-container class="home-container">
-        <el-header id="home-header" style="height: 160px">
+        <el-header id="home-header" :class="this.isVisible === true ? '' : 'collapsed'">
             <div id="first-layer">
                 <div class="header-brand">
                     <img alt="" class="header-logo" src="../../assets/logo.png"/>
@@ -35,7 +35,7 @@
                     </el-popover>
                 </div>
             </div>
-            <div id="main-head" >
+            <div id="main-head" :class="this.isVisible === true ? '' : 'hidden'">
                 <h1 id="head-title">您好，h_admin{{this.userName}}</h1>
                 <el-tabs id="head-tab" v-model="activeName" type="card" @tab-click="handleClick(activeName)">
                     <el-tab-pane label="首页" name="homePage"></el-tab-pane>
@@ -64,11 +64,11 @@
         name: "UserHome",
         data() {
             return {
-                activePath: '',
                 currentTime,
                 activeName: '',
                 userName: '',
                 // isCollapsed: false,
+                isVisible: true
             }
         },
         filters: {
@@ -86,7 +86,6 @@
         },
         created() {
             console.log("created")
-            this.activePath = this.$route.path
             this.activeName = this.$route.path.substring(1)
             this.getUserProfile()
         },
@@ -96,9 +95,12 @@
                 _this.currentTime = new Date()
             })
         },
-        // updated() {
-        //     this.isCollapsed = !(this.$route.path === '/submitOrder' || this.$route.path === '/checkOrder');
-        // },
+        updated() {
+            if (this.activeName !== this.$route.path.substring(1)) {
+                this.activeName = this.$route.path.substring(1)
+            }
+            this.isVisible = !(this.$route.path === '/submitOrder' || this.$route.path === '/checkOrder');
+        },
         beforeDestroy() {
             if (this.timer) {
                 clearInterval(this.timer)
@@ -115,9 +117,11 @@
                 await this.$router.push(`/${activeName}`)
             },
             async goSubmit() {
+                // this.isVisible = false
                 await this.$router.push('/submitOrder')
             },
             async goCheck() {
+                // this.isVisible = false
                 await this.$router.push('/checkOrder')
             }
         }
@@ -131,10 +135,12 @@
 
         #home-header {
             width: 100%;
+            height: 160px !important;
             display: flex;
             justify-content: flex-end;
             padding: 0;
             box-shadow: 0 10px 10px -10px #CCD0D3;
+            transition: all .5s;
 
 
             #first-layer {
@@ -213,12 +219,16 @@
                 }
             }
 
+
             #main-head {
                 position: absolute;
                 width: 100%;
                 height: 105px;
                 top: 55px;
                 background-color: #ffffff;
+                visibility: visible;
+                opacity: 1;
+                transition: all .5s;
 
                 #head-title {
                     font-size: 16px;
@@ -264,9 +274,13 @@
                     }
                 }
             }
-
         }
 
+        #main-head.hidden {
+            visibility: hidden !important;
+            opacity: 0 !important;
+            height: 0 !important;
+        }
 
         /deep/ .home-main {
             background-color: #F1F1F2;
@@ -313,7 +327,7 @@
         }
     }
 
-    .isHidden {
-        visibility: hidden;
+    #home-header.collapsed {
+        height: 50px !important;
     }
 </style>

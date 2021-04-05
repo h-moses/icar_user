@@ -8,3 +8,7 @@ html, body, #app {
 .el-popper {
     min-width: 100px;
 }
+
+.el-header {
+    height: 160px;
+}
