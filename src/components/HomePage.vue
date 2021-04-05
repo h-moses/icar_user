@@ -22,7 +22,7 @@
                 </el-card>
             </el-row>
             <el-card id="data-chart" class="home-card">
-                <h3 style="margin: 0">月度预警走势</h3>
+                <h3 style="margin: 0">周度预警变化</h3>
                 <warning-chart class-name="warning-chart" style="width: 100%;height:370px"></warning-chart>
             </el-card>
         </el-col>
