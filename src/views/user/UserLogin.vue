@@ -1,32 +1,27 @@
 <template>
     <div class="login-container">
-        <el-row :gutter="0" class="bk_row">
-            <img alt="" src="">
-            <el-col :span="16"></el-col>
-            <el-col :offset="16" :span="8" class="login_region">
-                <!--头像区域-->
-                <div class="avatar_box">
-                    <img alt="" src="../../assets/logo.png">
-                </div>
-                <el-link :underline="false" @click="register" class="register-link" style="font-size: 0.8rem" type="danger">
-                    没有账号？点此注册
-                </el-link>
-                <el-form :model="this.loginForm" :rules="this.loginFormRules" class="login_form" label-width="0"
-                         ref="loginFormRef">
-                    <el-form-item prop="username">
-                        <el-input clearable placeholder="请输入账号"
-                                  prefix-icon="icar_user iconyonghu" v-model="loginForm.username"></el-input>
-                    </el-form-item>
-                    <el-form-item prop="password">
-                        <el-input clearable placeholder="请输入密码" prefix-icon="icar_user iconmima"
-                                  type="password" v-model="loginForm.password"></el-input>
-                    </el-form-item>
-                    <el-form-item class="btns">
-                        <el-button @click="login" class="btn-login" type="primary">登录</el-button>
-                    </el-form-item>
-                </el-form>
-            </el-col>
-        </el-row>
+        <el-col class="login_region">
+            <div class="login_title">
+                <h1>Hello！</h1>
+                <div>欢迎登录<span>驭鹰</span></div>
+                <div>驾驶安全信息检测系统</div>
+            </div>
+            <el-link class="register-link" :underline="false" @click="register" style="font-size: 0.8rem" type="danger">
+                没有账号？点此注册
+            </el-link>
+            <el-form class="login_form" :model="this.loginForm" :rules="this.loginFormRules" label-width="0"
+                     ref="loginFormRef">
+                <el-form-item prop="username">
+                    <el-input clearable placeholder="请输入账号"
+                              prefix-icon="icar_user iconyonghu" v-model="loginForm.username"></el-input>
+                </el-form-item>
+                <el-form-item prop="password">
+                    <el-input clearable placeholder="请输入密码" prefix-icon="icar_user iconmima"
+                              type="password" v-model="loginForm.password"></el-input>
+                </el-form-item>
+            </el-form>
+            <el-button class="btn-login" @click="login" type="primary">登录</el-button>
+        </el-col>
     </div>
 </template>
 
@@ -67,88 +62,116 @@
 
 <style lang="less" scoped>
     .login-container {
-        background-color: #849FC4;
+        background: center/cover no-repeat url("../../assets/background.png");
         height: 100%;
     }
 
-    .bk_row {
-        height: 100%;
-        width: 100%;
-
-        img {
-            width: 100%;
-            height: 100%;
-            float: left;
+    .login_title {
+        margin-bottom: 50px;
+        >h1 {
+            margin: 5px;
+        }
+        >div {
+            font-size: 20px;
+            letter-spacing: 3px;
+        }
+        >div:nth-child(3) {
+            margin-top: 5px;
+            color: #4F71FC;
         }
     }
 
     .login_region {
-        position: fixed;
-        top: 1%;
-        bottom: 1%;
-        right: 1%;
-        width: 30%;
-        height: 98%;
-        border-radius: 1%;
-        background-color: #C7D7EE;
-        opacity: 0.94;
-    }
-
-    .avatar_box {
         position: absolute;
-        top: 20%;
-        left: 50%;
-        height: 130px;
-        width: 130px;
-        border: solid 1px #eee;
-        border-radius: 50%;
-        padding: 10px;
-        box-shadow: 0 0 10px #eee;
-        transform: translate(-50%, -50%);
-        background-color: #fff;
-
-        img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: #eee;
-        }
-    }
-
-    .register-link {
-        position: absolute;
-        top: 36%;
-        right: 20%;
-    }
-
-    .login_form {
-        position: absolute;
-        width: 100%;
-        height: 300px;
         top: 40%;
-        padding: 0 20%;
-        box-sizing: border-box;
+        left: 10%;
+        transform: translateY(-30%);
+        width: 20%;
+        height: 50%;
 
-        /deep/ .el-input__inner {
-            border-radius: 0;
+        .register-link {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 3%;
         }
-    }
 
-    .btns {
-        position: relative;
-        width: 100%;
-        top: 10%;
+        .login_form {
+
+
+            /deep/ .el-input__inner {
+                border-radius: 20px;
+            }
+        }
 
         .btn-login {
             width: 100%;
-            border-radius: 0;
+            border-radius: 20px;
+            margin-top: 5px;
             border: 0;
-            background-color: #87AFFF;
-            transition: background-color 0.5s;
+            background-image: linear-gradient(to right,#95C2FF,#006CFF);
         }
 
-        .btn-login:hover {
-            background-color: #4784FF;;
+        .btn-login:active {
+            box-shadow: 0 2px 1px -1px #3D8EFC, 0 -2px 1px -1px #3D8EFC, 2px 0 1px -1px #3D8EFC, -2px 0 1px -1px #3D8EFC;
         }
     }
+
+    /*.avatar_box {*/
+    /*    position: absolute;*/
+    /*    top: 20%;*/
+    /*    left: 50%;*/
+    /*    height: 130px;*/
+    /*    width: 130px;*/
+    /*    border: solid 1px #eee;*/
+    /*    border-radius: 50%;*/
+    /*    padding: 10px;*/
+    /*    box-shadow: 0 0 10px #eee;*/
+    /*    transform: translate(-50%, -50%);*/
+    /*    background-color: #fff;*/
+
+    /*    img {*/
+    /*        width: 100%;*/
+    /*        height: 100%;*/
+    /*        border-radius: 50%;*/
+    /*        background-color: #eee;*/
+    /*    }*/
+    /*}*/
+
+    /*.register-link {*/
+    /*    position: absolute;*/
+    /*    top: 36%;*/
+    /*    right: 20%;*/
+    /*}*/
+
+    /*.login_form {*/
+    /*    position: absolute;*/
+    /*    width: 100%;*/
+    /*    height: 300px;*/
+    /*    top: 40%;*/
+    /*    padding: 0 20%;*/
+    /*    box-sizing: border-box;*/
+
+    /*    /deep/ .el-input__inner {*/
+    /*        border-radius: 0;*/
+    /*    }*/
+    /*}*/
+
+    /*.btns {*/
+    /*    position: relative;*/
+    /*    width: 100%;*/
+    /*    top: 10%;*/
+
+    /*    .btn-login {*/
+    /*        width: 100%;*/
+    /*        border-radius: 0;*/
+    /*        border: 0;*/
+    /*        background-color: #87AFFF;*/
+    /*        transition: background-color 0.5s;*/
+    /*    }*/
+
+    /*    .btn-login:hover {*/
+    /*        background-color: #4784FF;;*/
+    /*    }*/
+    /*}*/
 </style>

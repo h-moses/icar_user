@@ -228,7 +228,7 @@
                 background-color: #ffffff;
                 visibility: visible;
                 opacity: 1;
-                transition: all .5s;
+                transition: all 1s;
 
                 #head-title {
                     font-size: 16px;
