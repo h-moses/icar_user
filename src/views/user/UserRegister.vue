@@ -8,7 +8,7 @@
 <!--                </div>-->
 <!--                <div class="register-system">智能网联汽车辅助驾驶安全信息检测系统</div>-->
 <!--            </div>-->
-            <div class="register-right">
+            <div class="form-container">
                 <div class="form-header">
                     <h2 class="form-title">
                         <span>注册</span>
@@ -114,47 +114,8 @@
         display: flex;
         justify-content: center;
 
-        /*.register-left {*/
-        /*    width: 50%;*/
-        /*    height: 100%;*/
-        /*    display: inline-block;*/
-        /*    background-image: linear-gradient(150deg,#D0D3F0,rgba(130,138,211,0.8));*/
 
-        /*    .register-introduce {*/
-        /*        display: flex;*/
-        /*        margin-left: 10%;*/
-        /*        align-items: center;*/
-
-        /*        .register-logo {*/
-        /*            margin-top: 30%;*/
-        /*            width: 60px;*/
-        /*            height: 60px;*/
-        /*        }*/
-
-        /*        .register-first {*/
-        /*            margin: 30% 0 0 10px;*/
-        /*            width: 60px;*/
-        /*            height: 60px;*/
-        /*            display: flex;*/
-        /*            justify-content: center;*/
-        /*            align-items: center;*/
-        /*            font-size: 30px;*/
-        /*            color: #4784FF;*/
-        /*        }*/
-        /*    }*/
-
-            /*.register-system {*/
-            /*    margin: 10px 0 0 10%;*/
-            /*    font-size: 20px;*/
-            /*}*/
-
-            /*.register-system {*/
-            /*    display: block;*/
-            /*}*/
-
-        }
-
-        .register-right {
+        .form-container {
             width: 100%;
             display: inline-flex;
             flex-direction: column;
@@ -163,7 +124,6 @@
             .form-header {
                 width: 100%;
                 height: 60px;
-                /*margin-top: 90px;*/
                 display: inline-flex;
                 justify-content: space-between;
                 align-items: center;
@@ -200,5 +160,6 @@
                 box-shadow: 0 2px 1px -1px #3D8EFC, 0 -2px 1px -1px #3D8EFC, 2px 0 1px -1px #3D8EFC, -2px 0 1px -1px #3D8EFC;
             }
         }
+    }
 
 </style>
