@@ -73,10 +73,7 @@
                             magicType: {
                                 type: ['line', 'bar']
                             },
-                            restore: {},
-                            saveAsImage: {
-                                name: '预警走势'
-                            }
+                            restore: {}
                         }
                     },
                     series: [{

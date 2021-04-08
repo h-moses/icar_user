@@ -47,8 +47,9 @@
         </el-header>
 
         <el-main class="home-main">
-
-            <router-view/>
+            <transition mode="out-in" :name="transitionName">
+                <router-view/>
+            </transition>
         </el-main>
 
     </el-container>
@@ -67,8 +68,8 @@
                 currentTime,
                 activeName: '',
                 userName: '',
-                // isCollapsed: false,
-                isVisible: true
+                isVisible: true,
+                transitionName: ''
             }
         },
         filters: {
@@ -106,22 +107,29 @@
                 clearInterval(this.timer)
             }
         },
+        watch: {
+            '$route' (to,from) {
+                if (to.path === from.path || (to.path === '/submitOrder' && (from.path !== '/checkOrder')) || (to.path === '/checkOrder' && (from.path !== '/submitOrder')) ||  (from.path === '/submitOrder' && (to.path !== '/checkOrder')) || (from.path === '/checkOrder' && (to.path !== '/submitOrder'))) {
+                    this.transitionName = ''
+                } else {
+                    this.transitionName = 'fade-right'
+                }
+            }
+        },
         methods: {
             async getUserProfile() {
 
             },
-            logout() {
-
+            async logout() {
+                await this.$router.push('/userLogin')
             },
             async handleClick(activeName) {
                 await this.$router.push(`/${activeName}`)
             },
             async goSubmit() {
-                // this.isVisible = false
                 await this.$router.push('/submitOrder')
             },
             async goCheck() {
-                // this.isVisible = false
                 await this.$router.push('/checkOrder')
             }
         }
@@ -330,4 +338,23 @@
     #home-header.collapsed {
         height: 50px !important;
     }
+
+    .fade-left-enter-active,.fade-right-enter-active{
+        transition: all .8s ease
+    }
+
+    .fade-left-leave-active, .fade-right-leave-active {
+        transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0)
+    }
+
+    .fade-left-leave-to, .fade-right-enter{
+        transform: translate3d(-50%, 0, 0);
+        opacity: 0
+    }
+
+    .fade-left-enter, .fade-right-leave-to {
+        transform: translate3d(50%, 0, 0);
+        opacity: 0
+    }
+
 </style>

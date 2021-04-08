@@ -101,7 +101,7 @@
     .user-register {
         width: 100%;
         height: 100%;
-        background: center/cover no-repeat url("../../assets/bag@2x.png");
+        background: center/cover no-repeat url("../../assets/background.png");
     }
 
     .register-box {

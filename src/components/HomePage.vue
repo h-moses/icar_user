@@ -23,7 +23,7 @@
             </el-row>
             <el-card id="data-chart" class="home-card">
                 <h3 style="margin: 0">周度预警变化</h3>
-                <warning-chart class-name="warning-chart" style="width: 100%;height:370px"></warning-chart>
+                <warning-chart class-name="warning-chart" style="width: 100%;height:350px"></warning-chart>
             </el-card>
         </el-col>
         <el-col :span="9">
@@ -128,7 +128,7 @@
 
 <style lang="less" scoped>
     #home-page {
-        padding: 20px;
+        padding: 0 20px;
 
         .el-row {
             display: flex;
@@ -136,7 +136,7 @@
         }
 
         .home-card {
-            margin: 20px 5px;
+            margin: 10px 5px;
             border: 1px solid #e3e4e6;
             box-sizing: border-box;
             box-shadow: none;
@@ -195,10 +195,6 @@
                 margin: 10px 0 0 20px;
                 font-size: 30px;
             }
-        }
-
-        #data-chart {
-            height: 400px;
         }
     }
 </style>

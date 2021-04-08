@@ -61,6 +61,11 @@ const routes = [
                 component: CheckOrder
             },
             {
+                path: '/checkOrder/:id',
+                name: 'ViewOrder',
+                component: ViewOrder
+            },
+            {
                 path: '/dataAnalysis',
                 name: 'DataAnalysis',
                 component: DataAnalysis
