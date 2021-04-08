@@ -1,13 +1,13 @@
 <template>
     <div class="user-register">
         <div class="register-box">
-            <div class="register-left">
-                <div class="register-introduce">
-                    <img alt="" class="register-logo" src="../../assets/logo.png"/>
-                    <span class="register-first">驭鹰</span>
-                </div>
-                <div class="register-system">智能网联汽车辅助驾驶安全信息检测系统</div>
-            </div>
+<!--            <div class="register-left">-->
+<!--                <div class="register-introduce">-->
+<!--                    <img alt="" class="register-logo" src="../../assets/logo.png"/>-->
+<!--                    <span class="register-first">驭鹰</span>-->
+<!--                </div>-->
+<!--                <div class="register-system">智能网联汽车辅助驾驶安全信息检测系统</div>-->
+<!--            </div>-->
             <div class="register-right">
                 <div class="form-header">
                     <h2 class="form-title">
@@ -19,7 +19,7 @@
                     </span>
                 </div>
                 <div class="form-content">
-                    <el-form :model="registerForm" :rules="registerFormRules" class="register-form" ref="registerFormRef">
+                    <el-form class="register-form" :model="registerForm" :rules="registerFormRules" ref="registerFormRef">
                         <el-form-item prop="username">
                             <el-input clearable placeholder="用户名" prefix-icon="icar_user iconyonghu" v-model="registerForm.username"></el-input>
                         </el-form-item>
@@ -37,9 +37,7 @@
                         </el-form-item>
                     </el-form>
                 </div>
-                <div class="form-btn">
-                    <el-button @click="registerUser" class="register-btn" type="primary">注册</el-button>
-                </div>
+                <el-button @click="registerUser" class="register-btn" type="primary">注册</el-button>
             </div>
         </div>
     </div>
@@ -108,65 +106,64 @@
 
     .register-box {
         position: absolute;
-        top: 30%;
-        left: 50%;
-        transform: translate(-50%, -30%);
-        width: 60%;
+        top: 20%;
+        left: 20%;
+        transform: translateX(-50%);
+        width: 20%;
         height: 80%;
-        background-color: #ffffff;
+        display: flex;
+        justify-content: center;
 
-        .register-left {
-            width: 50%;
-            height: 100%;
-            display: inline-block;
-            background-image: linear-gradient(150deg,#D0D3F0,rgba(130,138,211,0.8));
+        /*.register-left {*/
+        /*    width: 50%;*/
+        /*    height: 100%;*/
+        /*    display: inline-block;*/
+        /*    background-image: linear-gradient(150deg,#D0D3F0,rgba(130,138,211,0.8));*/
 
-            .register-introduce {
-                display: flex;
-                margin-left: 10%;
-                align-items: center;
+        /*    .register-introduce {*/
+        /*        display: flex;*/
+        /*        margin-left: 10%;*/
+        /*        align-items: center;*/
 
-                .register-logo {
-                    margin-top: 30%;
-                    width: 60px;
-                    height: 60px;
-                }
+        /*        .register-logo {*/
+        /*            margin-top: 30%;*/
+        /*            width: 60px;*/
+        /*            height: 60px;*/
+        /*        }*/
 
-                .register-first {
-                    margin: 30% 0 0 10px;
-                    width: 60px;
-                    height: 60px;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    font-size: 30px;
-                    color: #4784FF;
-                }
-            }
+        /*        .register-first {*/
+        /*            margin: 30% 0 0 10px;*/
+        /*            width: 60px;*/
+        /*            height: 60px;*/
+        /*            display: flex;*/
+        /*            justify-content: center;*/
+        /*            align-items: center;*/
+        /*            font-size: 30px;*/
+        /*            color: #4784FF;*/
+        /*        }*/
+        /*    }*/
 
-            .register-system {
-                margin: 10px 0 0 10%;
-                font-size: 20px;
-            }
+            /*.register-system {*/
+            /*    margin: 10px 0 0 10%;*/
+            /*    font-size: 20px;*/
+            /*}*/
 
-            .register-system {
-                display: block;
-            }
+            /*.register-system {*/
+            /*    display: block;*/
+            /*}*/
 
         }
 
         .register-right {
-            position: absolute;
-            left: 50%;
-            width: 50%;
+            width: 100%;
             display: inline-flex;
             flex-direction: column;
             align-items: center;
 
             .form-header {
-                width: 70%;
+                width: 100%;
                 height: 60px;
-                margin-top: 90px;
+                /*margin-top: 90px;*/
                 display: inline-flex;
                 justify-content: space-between;
                 align-items: center;
@@ -179,29 +176,29 @@
 
             .form-content {
                 margin-top: 20px;
-                width: 70%;
+                width: 90%;
 
                 /deep/ .el-input__inner {
-                    border-radius: 0;
+                    border-radius: 20px;
                 }
 
             }
 
-            .form-btn {
-                width: 70%;
+            .register-btn {
+                width: 90%;
+                border: 0;
+                border-radius: 20px;
+                background-color: #87AFFF;
+                transition: background-color 0.5s;
+            }
 
-                .register-btn {
-                    width: 100%;
-                    border: 0;
-                    border-radius: 0;
-                    background-color: #87AFFF;
-                    transition: background-color 0.5s;
-                }
+            .register-btn:hover {
+                background-color: #4784FF;
+            }
 
-                .register-btn:hover {
-                    background-color: #4784FF;
-                }
+            .register-btn:active {
+                box-shadow: 0 2px 1px -1px #3D8EFC, 0 -2px 1px -1px #3D8EFC, 2px 0 1px -1px #3D8EFC, -2px 0 1px -1px #3D8EFC;
             }
         }
-    }
+
 </style>
