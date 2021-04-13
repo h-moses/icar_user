@@ -3,7 +3,7 @@
         <el-col :span="15">
             <el-row>
                 <el-card id="assess-card" class="home-card">
-                    <div id="basic-content">h_admin</div>
+                    <div id="basic-content">{{this.userName}}</div>
                     <div id="assess-content">您目前的驾车评定等级为<span id="assess-degree">{{this.drivingDegree}}</span></div>
                 </el-card>
                 <el-card id="data-record" class="home-card">
@@ -22,14 +22,14 @@
                 </el-card>
             </el-row>
             <el-card id="data-chart" class="home-card">
-                <h3 style="margin: 0">周度预警变化</h3>
+                <h3 style="margin: 0">日均预警趋势</h3>
                 <warning-chart class-name="warning-chart" style="width: 100%;height:350px"></warning-chart>
             </el-card>
         </el-col>
         <el-col :span="9">
             <el-card id="warning-card" class="home-card">
                 <el-table :data="recentWarning">
-                    <el-table-column prop="warningID" label="预警编号" width="100px" align="center"></el-table-column>
+                    <el-table-column prop="warningID" label="预警事件" width="100px" align="center"></el-table-column>
                     <el-table-column prop="warningTime" label="时间" width="130px" align="center"></el-table-column>
                     <el-table-column prop="warningLoc" label="地点" width="180px" align="center"></el-table-column>
                     <el-table-column prop="warningDegree" label="风险等级" align="center">
@@ -120,8 +120,12 @@
                         feedbackState: '处理中',
                         submitTime: '1月前'
                     }
-                ]
+                ],
+                userName: ''
             }
+        },
+        created() {
+            this.userName = window.sessionStorage.getItem('userName')
         }
     }
 </script>

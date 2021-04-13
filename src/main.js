@@ -55,6 +55,7 @@ Vue.config.errorHandler = async function (err, vm, info) {
         data['logDescription'] = err.toString()
         data['componentLoc'] = info
         data['logType'] = 'error'
+        await vm.$http.post('uploadLog',data)
     }
 }
 

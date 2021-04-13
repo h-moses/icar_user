@@ -40,7 +40,7 @@
                     ],
                     user_pwd: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        {min: 6, max: 18, message: '密码不得少于6位，不多于18位', trigger: 'blur'}
+                        // {min: 6, max: 18, message: '密码不得少于6位，不多于18位', trigger: 'blur'}
                     ]
                 },
                 loading: false
