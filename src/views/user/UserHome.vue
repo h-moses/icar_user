@@ -20,23 +20,23 @@
                             <el-row :gutter="3" justify="space-between" type="flex">
                                 <el-col :span="4">
                                     <el-avatar size="large"
-                                               src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                                               :src="userAvatar"></el-avatar>
                                 </el-col>
                                 <el-col :span="20">
-                                    <div class="username">用户名：h_admin</div>
-                                    <div class="userID">账号：709820314</div>
+                                    <div class="username">用户名：{{this.userName}}</div>
+                                    <div class="userID">账号：{{this.userID}}</div>
                                 </el-col>
                             </el-row>
                             <el-divider/>
                             <el-button @click="logout" class="btn-logout">退出登录</el-button>
                         </div>
                         <el-avatar class="reference-avatar" slot="reference"
-                                   src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                                   :src="userAvatar"></el-avatar>
                     </el-popover>
                 </div>
             </div>
             <div id="main-head" :class="this.isVisible === true ? '' : 'hidden'">
-                <h1 id="head-title">您好，h_admin{{this.userName}}</h1>
+                <h1 id="head-title">您好，{{this.userName}}</h1>
                 <el-tabs id="head-tab" v-model="activeName" type="card" @tab-click="handleClick(activeName)">
                     <el-tab-pane label="首页" name="homePage"></el-tab-pane>
                     <el-tab-pane label="预警管理" name="drivingWarning"></el-tab-pane>
@@ -68,6 +68,8 @@
                 currentTime,
                 activeName: '',
                 userName: '',
+                userID: '',
+                userAvatar: '',
                 isVisible: true,
                 transitionName: ''
             }
@@ -86,9 +88,10 @@
             }
         },
         created() {
-            console.log("created")
+            this.userID = window.sessionStorage.getItem('userID')
+            this.userAvatar = window.sessionStorage.getItem('userAvatar')
+            this.userName = window.sessionStorage.getItem('userName')
             this.activeName = this.$route.path.substring(1)
-            this.getUserProfile()
         },
         mounted() {
             const _this = this;
@@ -117,10 +120,8 @@
             }
         },
         methods: {
-            async getUserProfile() {
-
-            },
             async logout() {
+                window.sessionStorage.clear()
                 await this.$router.push('/userLogin')
             },
             async handleClick(activeName) {

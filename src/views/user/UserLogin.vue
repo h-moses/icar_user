@@ -57,6 +57,7 @@
                     }
                     window.sessionStorage.setItem('token',res.data['token'])
                     window.sessionStorage.setItem('userID',res.data.user['userID'])
+                    window.sessionStorage.setItem('userAvatar',res.data.user['userAvatar'])
                     window.sessionStorage.setItem('userName',res.data.user['userName'])
                     await this.$router.push('/userHome')
                 })
