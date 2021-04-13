@@ -1,5 +1,7 @@
 <template>
+    <div id="view-order">
 
+    </div>
 </template>
 
 <script>

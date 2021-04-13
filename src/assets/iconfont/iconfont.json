@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7551418",
+      "name": "真实姓名",
+      "font_class": "zhenshixingming",
+      "unicode": "e689",
+      "unicode_decimal": 59017
+    },
+    {
+      "icon_id": "14033512",
+      "name": "性别",
+      "font_class": "xingbie",
+      "unicode": "e78c",
+      "unicode_decimal": 59276
+    },
+    {
       "icon_id": "3199543",
       "name": "意见反馈",
       "font_class": "drxx66",

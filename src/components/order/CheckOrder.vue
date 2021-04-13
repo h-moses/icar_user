@@ -13,16 +13,16 @@
                 <el-table-column align="center" label="工单编号" prop="orderID"></el-table-column>
                 <el-table-column align="center" label="工单主题" prop="orderTitle"></el-table-column>
                 <el-table-column align="center" label="提交时间" prop="submitTime"></el-table-column>
-                <el-table-column align="center" label="工单类别" prop="orderType" :filters="filterTypes" :filter-method="handleFilterState"></el-table-column>
-                <el-table-column align="center" label="工单状态" prop="orderState" :filters="filterStates" :filter-method="handleFilterState">
+                <el-table-column align="center" label="工单类别" prop="orderType" :filters="filterTypes" :filter-method="handleFilter"></el-table-column>
+                <el-table-column align="center" label="工单状态" prop="orderState" :filters="filterStates" :filter-method="handleFilter">
                     <template slot-scope="scope">
                         <el-tag :type="stateTag[scope.row.orderState]">{{scope.row.orderState}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
-                        <el-button @click="scanOrderByID(scope.row.id)" icon="el-icon-view" size="mini" type="primary">查看</el-button>
-                        <el-button @click="deleteOrderByID(scope.row.id)" icon="el-icon-delete" size="mini" type="danger">删除</el-button>
+                        <el-button @click="scanOrderByID(scope.row.orderID)" icon="el-icon-view" size="mini" type="primary">查看</el-button>
+                        <el-button @click="deleteOrderByID(scope.row.orderID)" icon="el-icon-delete" size="mini" type="danger">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -137,12 +137,12 @@
 
                 this.loading = false
             },
-            handleFilterState(value,row,column) {
+            handleFilter(value,row,column) {
                 const property = column['property']
                 return row[property] === value
             },
             async scanOrderByID(id) {
-
+                await this.$router.push(`/checkOrder/${id}`)
             },
             async deleteOrderByID(id) {
                 const confirmResult = await this.$confirm('确认删除该工单?', '删除工单', {

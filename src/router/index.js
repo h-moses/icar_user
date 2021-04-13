@@ -10,6 +10,7 @@ import HomePage from "../components/HomePage";
 import DrivingVideo from "../components/video/DrivingVideo";
 import DrivingWarning from "../components/warning/DrivingWarning";
 import DataAnalysis from "../components/analysis/DataAnalysis";
+import ViewOrder from "../components/order/ViewOrder";
 
 Vue.use(VueRouter)
 

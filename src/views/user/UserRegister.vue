@@ -1,13 +1,6 @@
 <template>
     <div class="user-register">
         <div class="register-box">
-<!--            <div class="register-left">-->
-<!--                <div class="register-introduce">-->
-<!--                    <img alt="" class="register-logo" src="../../assets/logo.png"/>-->
-<!--                    <span class="register-first">驭鹰</span>-->
-<!--                </div>-->
-<!--                <div class="register-system">智能网联汽车辅助驾驶安全信息检测系统</div>-->
-<!--            </div>-->
             <div class="form-container">
                 <div class="form-header">
                     <h2 class="form-title">
@@ -20,20 +13,33 @@
                 </div>
                 <div class="form-content">
                     <el-form class="register-form" :model="registerForm" :rules="registerFormRules" ref="registerFormRef">
-                        <el-form-item prop="username">
-                            <el-input clearable placeholder="用户名" prefix-icon="icar_user iconyonghu" v-model="registerForm.username"></el-input>
+                        <el-form-item prop="user_name">
+                            <el-input clearable placeholder="用户名" prefix-icon="icar_user iconyonghu" v-model="registerForm.user_name"></el-input>
                         </el-form-item>
-                        <el-form-item prop="password">
+                        <el-form-item prop="user_pwd">
                             <el-input clearable placeholder="密码不少于6位" prefix-icon="icar_user iconmima" show-password
-                                      type="password" v-model="registerForm.password"></el-input>
+                                      type="password" v-model="registerForm.user_pwd"></el-input>
                         </el-form-item>
-                        <el-form-item prop="userphone">
+                        <el-form-item prop="user_phone">
                             <el-input clearable placeholder="手机" prefix-icon="icar_user iconshumatubiaozhizuochunsezhuanqu-"
-                                      v-model="registerForm.userphone"></el-input>
+                                      v-model="registerForm.user_phone"></el-input>
                         </el-form-item>
-                        <el-form-item prop="email">
+                        <el-form-item prop="user_email">
                             <el-input clearable placeholder="邮箱" prefix-icon="icar_user iconshuangsechangyongtubiao-"
-                                      v-model="registerForm.email"></el-input>
+                                      v-model="registerForm.user_email"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="real_name">
+                            <el-input clearable placeholder="真实姓名" prefix-icon="icar_user iconzhenshixingming"
+                                      v-model="registerForm.real_name"></el-input>
+                        </el-form-item>
+                        <el-form-item id="gender-item" prop="user_gender">
+                            <i class="icar_user iconxingbie"><span>性别</span></i>
+                            <el-card>
+                                <el-radio-group class="gender-group" v-model="registerForm.user_gender">
+                                    <el-radio label="男">男</el-radio>
+                                    <el-radio label="女">女</el-radio>
+                                </el-radio-group>
+                            </el-card>
                         </el-form-item>
                     </el-form>
                 </div>
@@ -65,10 +71,12 @@
             };
             return {
                 registerForm: {
-                    username: '',
-                    userphone: '',
-                    password: '',
-                    email: ''
+                    user_name: '',
+                    user_pwd: '',
+                    user_phone: '',
+                    user_email: '',
+                    user_gender: '',
+                    real_name: ''
                 },
                 registerFormRules: {
                     username: [
@@ -90,8 +98,20 @@
             }
         },
         methods: {
-            async registerUser() {
-
+            registerUser() {
+                this.$refs.registerFormRef.validate(async valid => {
+                    if (!valid) return
+                    const {data:res} = await this.$http.post('register',this.registerForm)
+                    if (res.code === 100) {
+                        return this.$message.error("此用户名已被占用")
+                    }else if (res.code !== 200) {
+                        return this.$message.error("注册失败")
+                    }
+                    this.$message.success("注册成功，即将跳转至登录界面")
+                    setTimeout(() => {
+                        this.$router.push('/userLogin')
+                    },3000)
+                })
             }
         }
     }
@@ -142,6 +162,35 @@
                     border-radius: 20px;
                 }
 
+                .el-form-item:nth-child(5) {
+                    margin-bottom: 10px;
+                }
+
+                #gender-item {
+                    margin-top: 0;
+                    .iconxingbie {
+                        margin-left: 5px;
+                        color: #cccccc;
+
+                        span {
+                            margin-left: 10px;
+                        }
+                    }
+
+                    .el-card {
+                        border-radius: 40px;
+
+                        /deep/ .el-card__body {
+                            padding: 10px;
+                        }
+                    }
+
+                    .gender-group {
+                        width: 100%;
+                        display: flex;
+                        justify-content: space-evenly;
+                    }
+                }
             }
 
             .register-btn {
