@@ -73,7 +73,6 @@
                 align-items: center;
 
                 .navbar-nav {
-                    /*position: absolute;*/
                     width: 400px;
                     height: 50px;
                     box-sizing: border-box;
@@ -83,21 +82,19 @@
                     justify-content: space-between;
                     align-items: center;
                     list-style: none;
+                    font-family: pingfang SC,helvetica neue,arial,hiragino sans gb,microsoft yahei ui,microsoft yahei,simsun,sans-serif;
 
                     > a {
-                        width: 100px;
-                        height: 50px;
+                        margin-left: 40px;
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         text-decoration: none;
-                        color: #551A8B;
-                        transition: background-color 0.3s;
+                        color: black;
                     }
 
                     > a:hover {
-
-                        background-color: #E0EAFF;
+                        color: 	#7A84D2;
                     }
                 }
             }
@@ -128,12 +125,11 @@
                         justify-content: center;
                         align-items: center;
                         text-decoration: none;
-                        color: #551A8B;
-                        transition: background-color 0.3s;
+                        color: black;
                     }
 
                     > a:hover {
-                        background-color: #E0EAFF;
+                        color: 	#7A84D2;
                     }
                 }
             }

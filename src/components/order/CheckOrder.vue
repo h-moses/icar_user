@@ -8,24 +8,27 @@
         </el-breadcrumb>
 
         <el-card>
-            <el-table :data="this.orderList" border stripe>
+            <el-table :data="orderList" border stripe>
                 <el-table-column align="center" label="序号" type="index" width="70"></el-table-column>
-                <el-table-column align="center" label="工单编号" prop="orderID"></el-table-column>
-                <el-table-column align="center" label="工单主题" prop="orderTitle"></el-table-column>
-                <el-table-column align="center" label="提交时间" prop="submitTime"></el-table-column>
-                <el-table-column align="center" label="工单类别" prop="orderType" :filters="filterTypes" :filter-method="handleFilter"></el-table-column>
-                <el-table-column align="center" label="工单状态" prop="orderState" :filters="filterStates" :filter-method="handleFilter">
+                <el-table-column align="center" label="工单编号" prop="feedbackID"></el-table-column>
+                <el-table-column align="center" label="工单主题" prop="feedbackTitle"></el-table-column>
+                <el-table-column align="center" label="提交时间" prop="feedbackTime"></el-table-column>
+                <el-table-column align="center" label="工单类别" prop="feedbackLabel" :filters="filterTypes" :filter-method="handleFilter"></el-table-column>
+                <el-table-column align="center" label="工单状态" prop="feedbackState" :filters="filterStates" :filter-method="handleFilter">
                     <template slot-scope="scope">
-                        <el-tag :type="stateTag[scope.row.orderState]">{{scope.row.orderState}}</el-tag>
+                        <el-tag :type="stateTag[scope.row.feedbackState]">{{scope.row.feedbackState}}</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" label="操作">
                     <template slot-scope="scope">
-                        <el-button @click="scanOrderByID(scope.row.orderID)" icon="el-icon-view" size="mini" type="primary">查看</el-button>
-                        <el-button @click="deleteOrderByID(scope.row.orderID)" icon="el-icon-delete" size="mini" type="danger">删除</el-button>
+                        <el-button @click="scanOrderByID(scope.row.feedbackID)" icon="el-icon-view" size="mini" type="primary">查看</el-button>
+                        <el-button @click="deleteOrderByID(scope.row.feedbackID)" icon="el-icon-delete" size="mini" type="danger">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
+            <el-pagination :current-page="queryInfo.currentPage" :page-size="queryInfo.pageSize" :page-sizes="[1,2,5,10]"
+                           :total="total" @current-change="handleCurrentChange" @size-change="handleSizeChange"
+                           background layout="total,sizes,prev,pager,next,jumper"></el-pagination>
         </el-card>
     </div>
 </template>
@@ -35,40 +38,12 @@
         name: "CheckOrder",
         data() {
             return {
-                orderList: [
-                    {
-                        'orderID':'20210212',
-                        'orderTitle':'系统故障',
-                        'userName':'h_admin',
-                        'submitTime': '2021-03-30',
-                        'orderType': '天气查询',
-                        'orderState': '已提交'
-                    },
-                    {
-                        'orderID':'20210212',
-                        'orderTitle':'系统故障',
-                        'userName':'h_admin',
-                        'submitTime': '2021-03-30',
-                        'orderType': '天气查询',
-                        'orderState': '处理中'
-                    },
-                    {
-                        'orderID':'20210212',
-                        'orderTitle':'系统故障',
-                        'userName':'h_admin',
-                        'submitTime': '2021-03-30',
-                        'orderType': '天气查询',
-                        'orderState': '已关闭'
-                    },
-                    {
-                        'orderID':'20210212',
-                        'orderTitle':'系统故障',
-                        'userName':'h_admin',
-                        'submitTime': '2021-03-30',
-                        'orderType': '天气查询',
-                        'orderState': '处理中'
-                    }
-                ],
+                total: null,
+                queryInfo: {
+                    currentPage: '1',
+                    pageSize: '5'
+                },
+                orderList: [],
                 loading: false,
                 stateTag: {
                     '已提交': 'danger',
@@ -126,15 +101,20 @@
             }
         },
         created() {
+
             this.getOrderList()
         },
         methods: {
             async getOrderList() {
-                const {data: res} = await this.$http.post()
+                const data = JSON.parse(JSON.stringify(this.queryInfo))
+                data['user_phone'] = window.sessionStorage.getItem('userPhone')
+                const {data: res} = await this.$http.post('feedback/view',data)
                 if (res.code !== 200) {
                     return this.$message.error("获取数据失败,请稍后再试")
                 }
-
+                this.orderList = res.data.feedbackRecord.list
+                this.total = res.data.feedbackRecord.total
+                this.queryInfo.pageSize = res.data.feedbackRecord.pageSize
                 this.loading = false
             },
             handleFilter(value,row,column) {
@@ -152,16 +132,24 @@
                     type: 'warning'
                 }).catch(err => err)
                 if (confirmResult !== 'confirm') {
-                    return this.$message.info('取消删除工单')
+                    return this.$message.info('取消删除')
                 }
-                const params = new FormData()
-                params.append('orderID', id)
-                const {data: res} = await this.$http.post('deleteUser', params)
+                const params = {}
+                params['feedback_id'] = id
+                const {data: res} = await this.$http.post('feedback/delete', params)
                 if (res.code !== 200) {
                     return this.$message.error("删除工单失败")
                 }
                 this.$message.success("成功删除工单")
                 await this.getOrderList()
+            },
+            handleCurrentChange(newPage) {
+                this.queryInfo.currentPage = newPage
+                this.getOrderList()
+            },
+            handleSizeChange(newSize) {
+                this.queryInfo.pageSize = newSize
+                this.getOrderList()
             }
         }
     }

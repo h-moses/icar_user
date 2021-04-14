@@ -103,7 +103,7 @@
             if (this.activeName !== this.$route.path.substring(1)) {
                 this.activeName = this.$route.path.substring(1)
             }
-            this.isVisible = !(this.$route.path === '/submitOrder' || this.$route.path === '/checkOrder');
+            this.isVisible = !(this.$route.path === '/submitOrder' || this.$route.path === '/checkOrder' || /\/checkOrder\/[\s]*/.test(this.$route.path));
         },
         beforeDestroy() {
             if (this.timer) {
@@ -112,7 +112,9 @@
         },
         watch: {
             '$route' (to,from) {
-                if (to.path === from.path || (to.path === '/submitOrder' && (from.path !== '/checkOrder')) || (to.path === '/checkOrder' && (from.path !== '/submitOrder')) ||  (from.path === '/submitOrder' && (to.path !== '/checkOrder')) || (from.path === '/checkOrder' && (to.path !== '/submitOrder'))) {
+                if (from.path === '/checkOrder' && (/\/checkOrder\/[\s]*/.test(to.path))) {
+                    this.transitionName = 'fade-right'
+                } else if (to.path === from.path || (to.path === '/submitOrder' && (from.path !== '/checkOrder')) || (to.path === '/checkOrder' && (from.path !== '/submitOrder')) ||  (from.path === '/submitOrder' && (to.path !== '/checkOrder')) || (from.path === '/checkOrder' && (to.path !== '/submitOrder'))) {
                     this.transitionName = ''
                 } else {
                     this.transitionName = 'fade-right'

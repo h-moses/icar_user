@@ -1,21 +1,20 @@
 <template>
     <div id="submit-order">
 <!--            面包屑导航区-->
-                <el-breadcrumb separator-class="el-icon-arrow-right">
-                    <el-breadcrumb-item :to="{path:'/homePage'}">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>个人工单</el-breadcrumb-item>
-                    <el-breadcrumb-item>提交工单</el-breadcrumb-item>
-                </el-breadcrumb>
+        <el-breadcrumb separator-class="el-icon-arrow-right">
+            <el-breadcrumb-item :to="{path:'/homePage'}">首页</el-breadcrumb-item>
+            <el-breadcrumb-item>个人工单</el-breadcrumb-item>
+            <el-breadcrumb-item>提交工单</el-breadcrumb-item>
+        </el-breadcrumb>
 
         <el-card>
             <el-row id="card-row" :gutter="0">
-                <el-col :span="15">
-                    <el-form :model="submitForm" :rules="submitFormRules" id="submit-form" ref="submitFormRef">
-                        <el-input name="token" type="hidden" v-model="token"/>
+                <el-col :span="13">
+                    <el-form :model="submitForm" id="submit-form" ref="submitFormRef">
                         <el-row id="user-row">
                             <el-form-item class="row-item" prop="username">
                                 <div class="item-label">用户名</div>
-                                <el-input readonly v-model="submitForm.username"/>
+                                <el-input readonly v-model="username"/>
                             </el-form-item>
                             <el-form-item class="row-item" prop="userphone">
                                 <div class="item-label">手机</div>
@@ -67,7 +66,7 @@
                                         multiple
                                         ref="uploadRef">
                                     <el-button size="small" type="primary">点击上传</el-button>
-                                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb。最多上传3张图片</div>
+                                    <div class="el-upload__tip" slot="tip">只能上传jpg/png文件，且不超过500kb。最多上传1张图片</div>
                                 </el-upload>
                                 <el-button @click="submit" class="submit-btn" size="small" type="primary">提交</el-button>
                                 <el-dialog :visible.sync="dialogVisible">
@@ -77,20 +76,20 @@
                         </el-row>
                     </el-form>
                 </el-col>
-                <el-col :span="7">
+                <el-col :span="8">
                     <el-collapse id="recent-order" v-model="activeName">
                         <el-collapse-item class="order-item" title="最近工单" name="1">
                             <el-table :data="recentOrder">
-                                <el-table-column prop="feedbackID" label="工单号" width="70px" align="center"></el-table-column>
-                                <el-table-column prop="feedbackTitle" label="主题" width="140px" align="center"></el-table-column>
-                                <el-table-column prop="feedBackState" label="状态" align="center">
+                                <el-table-column prop="feedbackID" label="工单号" width="180" align="center"></el-table-column>
+                                <el-table-column prop="feedbackTitle" label="主题" width="70" align="center"></el-table-column>
+                                <el-table-column prop="feedBackState" label="状态" width="70" align="center">
                                     <template slot-scope="scope">
                                         <el-tag v-if="scope.row.feedbackState === '已提交'" type="success" size="small" effect="plain">已提交</el-tag>
                                         <el-tag v-else-if="scope.row.feedbackState === '处理中'" type="warning" size="small" effect="plain">处理中</el-tag>
                                         <el-tag v-else type="info" size="small" effect="plain">已关闭</el-tag>
                                     </template>
                                 </el-table-column>
-                                <el-table-column prop="submitTime" label="时间" align="center"></el-table-column>
+                                <el-table-column prop="feedbackTime" label="时间" align="center"></el-table-column>
                             </el-table>
                         </el-collapse-item>
                     </el-collapse>
@@ -105,17 +104,16 @@
         name: "SubmitOrder",
         data() {
             return {
-                token: '',
                 submitForm: {
-                    username: 'h_admin',
-                    userphone: '19858160932',
+
+                    userphone: '',
                     ordertitle: '',
                     servicelabel: '',
                     orderpriority: '',
                     orderContent: '',
-                    orderimages: []
+                    orderimages: ''
                 },
-                submitFormRules: {},
+                userName: '',
                 serviceLabels: [
                     {
                         label: '识别预警',
@@ -171,36 +169,13 @@
                 dialogVisible: false,
                 dialogImageUrl: '',
                 activeName: '1',
-                recentOrder: [
-                    {
-                        feedbackID: '1',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '处理中',
-                        submitTime: '1月前'
-                    },
-                    {
-                        feedbackID: '2',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '已提交',
-                        submitTime: '1月前'
-                    },
-                    {
-                        feedbackID: '3',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '已关闭',
-                        submitTime: '1月前'
-                    },
-                    {
-                        feedbackID: '4',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '处理中',
-                        submitTime: '1月前'
-                    }
-                ]
+                recentOrder: []
             }
         },
         created() {
-            this.token = window.localStorage.getItem("userToken")
+            this.getRecentOrder()
+            this.username = window.sessionStorage.getItem('userName')
+            this.submitForm.userphone = window.sessionStorage.getItem('userPhone')
         },
         methods: {
             handlePreview(file) {
@@ -228,6 +203,17 @@
             async submit() {
                 this.$message.success("提交成功")
                 await this.$router.push('/checkOrder')
+            },
+            async getRecentOrder() {
+                const data = {}
+                data['user_phone'] = window.sessionStorage.getItem('userPhone')
+                data['currentPage'] = 1
+                data['pageSize'] = 4
+                const {data:res} = await this.$http.post('feedback/view',data)
+                if (res.code !== 200) {
+                    return this.$message.error("获取最近工单失败")
+                }
+                this.recentOrder = res.data.feedbackRecord.list
             }
         }
     }
@@ -305,12 +291,13 @@
         }
 
         #recent-order {
-            margin-top: 40px;
+            margin-top: 20px;
+            width: 500px;
             border: 1px solid #F5F5F5;
 
             /deep/ .el-collapse-item__header {
                 background-color: #F5F5F5;
-                width: 396px;
+                width: 500px;
                 height: 40px;
                 display: flex;
                 justify-content: space-around;

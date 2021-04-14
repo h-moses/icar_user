@@ -59,6 +59,7 @@
                     window.sessionStorage.setItem('userID',res.data.user['userID'])
                     window.sessionStorage.setItem('userAvatar',res.data.user['userAvatar'])
                     window.sessionStorage.setItem('userName',res.data.user['userName'])
+                    window.sessionStorage.setItem('userPhone',res.data.user['userPhone'])
                     await this.$router.push('/userHome')
                 })
 
