@@ -72,7 +72,7 @@
                         textStyle: {
                           fontSize: 13
                         },
-                        itemGap: 100
+                        itemGap: 40
                     },
                     grid: {
                         left: '3%',
