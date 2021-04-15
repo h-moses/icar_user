@@ -158,10 +158,6 @@
                 margin-top: 20px;
                 width: 90%;
 
-                /deep/ .el-input__inner {
-                    border-radius: 20px;
-                }
-
                 .el-form-item:nth-child(5) {
                     margin-bottom: 10px;
                 }
@@ -196,7 +192,6 @@
             .register-btn {
                 width: 90%;
                 border: 0;
-                border-radius: 20px;
                 background-color: #87AFFF;
                 transition: background-color 0.5s;
             }

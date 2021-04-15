@@ -4,7 +4,7 @@
             <el-row>
                 <el-card id="assess-card" class="home-card">
                     <div id="basic-content">{{this.userName}}</div>
-                    <div id="assess-content">您目前的驾车评定等级为<span id="assess-degree">{{this.drivingDegree}}</span></div>
+                    <div id="assess-content">您目前的驾车评定等级为<span id="assess-degree" :style="{color: ratingColor[this.userRating]}">{{this.userRating}}</span></div>
                 </el-card>
                 <el-card id="data-record" class="home-card">
                     <div class="record-item">
@@ -29,14 +29,14 @@
         <el-col :span="9">
             <el-card id="warning-card" class="home-card">
                 <el-table :data="recentWarning">
-                    <el-table-column prop="warningID" label="预警事件" width="100px" align="center"></el-table-column>
-                    <el-table-column prop="warningTime" label="时间" width="130px" align="center"></el-table-column>
-                    <el-table-column prop="warningLoc" label="地点" width="180px" align="center"></el-table-column>
-                    <el-table-column prop="warningDegree" label="风险等级" align="center">
+                    <el-table-column prop="alarmReason" label="预警事件" align="center"></el-table-column>
+                    <el-table-column prop="alarmTime" label="时间" align="center"></el-table-column>
+<!--                    <el-table-column prop="location" label="地点" width="180px" align="center"></el-table-column>-->
+                    <el-table-column prop="alarmDegree" label="风险等级" align="center">
                         <template slot-scope="scope">
-                            <el-tag v-if="scope.row.warningDegree === 'A'" type="danger" size="small" effect="plain">A级</el-tag>
-                            <el-tag v-else-if="scope.row.warningDegree === 'B'" type="warning" size="small" effect="plain">B级</el-tag>
-                            <el-tag v-else-if="scope.row.warningDegree === 'C'" size="small" effect="plain">C级</el-tag>
+                            <el-tag v-if="scope.row.alarmDegree === 'A'" type="danger" size="small" effect="plain">A级</el-tag>
+                            <el-tag v-else-if="scope.row.alarmDegree === 'B'" type="warning" size="small" effect="plain">B级</el-tag>
+                            <el-tag v-else-if="scope.row.alarmDegree === 'C'" size="small" effect="plain">C级</el-tag>
                             <el-tag v-else type="success" size="small" effect="plain">D级</el-tag>
                         </template>
                     </el-table-column>
@@ -46,8 +46,8 @@
                 <el-table :data="recentOrder">
                     <el-table-column prop="feedbackID" label="工单号" width="100px" align="center"></el-table-column>
                     <el-table-column prop="feedbackTitle" label="主题" width="160px" align="center"></el-table-column>
-                    <el-table-column prop="submitTime" label="时间" width="160px" align="center"></el-table-column>
-                    <el-table-column prop="feedBackState" label="状态" align="center">
+                    <el-table-column prop="feedbackTime" label="时间" width="160px" align="center"></el-table-column>
+                    <el-table-column prop="feedbackState" label="状态" align="center">
                         <template slot-scope="scope">
                             <el-tag v-if="scope.row.feedbackState === '已提交'" type="success" size="small" effect="plain">已提交</el-tag>
                             <el-tag v-else-if="scope.row.feedbackState === '处理中'" type="warning" size="small" effect="plain">处理中</el-tag>
@@ -69,63 +69,47 @@
         data() {
             return {
                 drivingDegree: 'A',
-                recentWarning: [
-                    {
-                        warningID: '系统故障',
-                        warningTime: '2017-01-04',
-                        warningLoc: '学林街',
-                        warningDegree: 'A',
-                    },
-                    {
-                        warningID: '系统故障',
-                        warningTime: '2017-01-04',
-                        warningLoc: '学林街',
-                        warningDegree: 'B',
-                    },
-                    {
-                        warningID: '系统故障',
-                        warningTime: '2017-01-04',
-                        warningLoc: '学林街',
-                        warningDegree: 'C',
-                    },
-                    {
-                        warningID: '系统故障',
-                        warningTime: '2017-01-04',
-                        warningLoc: '学林街',
-                        warningDegree: 'D',
-                    }
-                ],
-                recentOrder: [
-                    {
-                        feedbackID: '1',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '处理中',
-                        submitTime: '1月前'
-                    },
-                    {
-                        feedbackID: '2',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '已提交',
-                        submitTime: '1月前'
-                    },
-                    {
-                        feedbackID: '3',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '已关闭',
-                        submitTime: '1月前'
-                    },
-                    {
-                        feedbackID: '4',
-                        feedbackTitle: '系统故障',
-                        feedbackState: '处理中',
-                        submitTime: '1月前'
-                    }
-                ],
-                userName: ''
+                recentWarning: [],
+                recentOrder: [],
+                userName: '',
+                userRating: '',
+                ratingColor: {
+                    'A': 'green',
+                    'B': 'orange',
+                    'C': 'yellow',
+                    'D': 'red'
+                }
             }
         },
         created() {
+            this.userRating = window.sessionStorage.getItem('userRating')
             this.userName = window.sessionStorage.getItem('userName')
+            this.getRecentWarning()
+            this.getRecentOrder()
+        },
+        methods: {
+            async getRecentWarning() {
+                const data = {}
+                data['currentPage'] = 1
+                data['pageSize'] = 4
+                data['user_name'] = this.userName
+                const {data:res} = await this.$http.post('alarm/view',data)
+                if (res.code !== 200) {
+                    return this.$message.error('获取预警数据失败')
+                }
+                this.recentWarning = res.data.alarmRecord['list']
+            },
+            async getRecentOrder() {
+                const data = {}
+                data['currentPage'] = 1
+                data['pageSize']  = 3
+                data['user_phone'] = window.sessionStorage.getItem('userPhone')
+                const {data:res} = await this.$http.post('feedback/view',data)
+                if (res.code !== 200) {
+                    return this.$message.error('获取工单数据失败')
+                }
+                this.recentOrder = res.data.feedbackRecord['list']
+            }
         }
     }
 </script>

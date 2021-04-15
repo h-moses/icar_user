@@ -6,9 +6,6 @@
                 <div>欢迎登录<span>驭鹰</span></div>
                 <div>驾驶安全信息检测系统</div>
             </div>
-            <el-link class="register-link" :underline="false" @click="register" style="font-size: 0.8rem" type="danger">
-                没有账号？点此注册
-            </el-link>
             <el-form class="login_form" :model="this.loginForm" :rules="this.loginFormRules" label-width="0"
                      ref="loginFormRef">
                 <el-form-item prop="user_name">
@@ -20,6 +17,14 @@
                               type="password" v-model="loginForm.user_pwd" @keyup.enter.native="login"></el-input>
                 </el-form-item>
             </el-form>
+            <el-row>
+                <el-link class="forgot-password" :underline="false" @click="register" style="font-size: 0.8rem">
+                    忘记密码？
+                </el-link>
+                <el-link class="register-link" :underline="false" @click="register" style="font-size: 0.8rem">
+                    立即注册
+                </el-link>
+            </el-row>
             <el-button class="btn-login" :loading="loading" @click="login" type="primary">登录<span v-if="loading === true">中</span></el-button>
         </el-col>
     </div>
@@ -40,7 +45,6 @@
                     ],
                     user_pwd: [
                         {required: true, message: '请输入密码', trigger: 'blur'},
-                        // {min: 6, max: 18, message: '密码不得少于6位，不多于18位', trigger: 'blur'}
                     ]
                 },
                 loading: false
@@ -60,6 +64,7 @@
                     window.sessionStorage.setItem('userAvatar',res.data.user['userAvatar'])
                     window.sessionStorage.setItem('userName',res.data.user['userName'])
                     window.sessionStorage.setItem('userPhone',res.data.user['userPhone'])
+                    window.sessionStorage.setItem('userRating',res.data.user['userRating'])
                     await this.$router.push('/userHome')
                 })
 
@@ -100,25 +105,23 @@
         width: 20%;
         height: 50%;
 
-        .register-link {
-            width: 100%;
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 3%;
+        .el-form-item.is-required {
+            margin-bottom: 10px;
         }
 
-        .login_form {
+        .el-row {
+            width: 100%;
+            position: relative;
+        }
 
-
-            /deep/ .el-input__inner {
-                border-radius: 20px;
-            }
+        .register-link {
+            position: relative;
+            left: 60%;
         }
 
         .btn-login {
             width: 100%;
-            border-radius: 20px;
-            margin-top: 5px;
+            margin-top: 20px;
             border: 0;
             background-image: linear-gradient(to right,#95C2FF,#006CFF);
         }
