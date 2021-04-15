@@ -3,9 +3,14 @@
 </template>
 
 <script>
-    import echarts from 'echarts';
+    import * as echarts from 'echarts/core';
+    import {GridComponent, LegendComponent, TitleComponent, ToolboxComponent, TooltipComponent} from 'echarts/components';
+    import {LineChart} from 'echarts/charts';
+    import {CanvasRenderer} from 'echarts/renderers';
 
-    require('echarts/theme/macarons')
+    echarts.use(
+        [TitleComponent, ToolboxComponent, TooltipComponent, GridComponent, LegendComponent, LineChart, CanvasRenderer]
+    );
 
     export default {
         name: "LineChart",
@@ -42,10 +47,39 @@
         },
         methods: {
             initLineChart() {
-                this.chart = echarts.init(this.$el, "macarons")
+                this.chart = echarts.init(this.$el)
+                this.setOptions()
+            },
+            setOptions() {
                 let option;
 
                 option = {
+                    title: {
+                        text: '行车预警走势',
+                        textStyle: {
+                            fontsize: 18,
+                            color: '#969CA7'
+                        }
+                    },
+                    tooltip: {
+                        trigger: 'axis',
+                        formatter: function (params) {
+                            return params[0].seriesName + ":" + params[0].value + "<br/>" + params[1].seriesName + ":" + params[1].value
+                        }
+                    },
+                    legend: {
+                        data: ['平均预警','个人预警'],
+                        textStyle: {
+                          fontSize: 13
+                        },
+                        itemGap: 100
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
                     xAxis: {
                         type: 'category',
                         boundaryGap: false,
@@ -54,53 +88,23 @@
                     yAxis: {
                         type: 'value'
                     },
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'cross',
-                            label: {
-                                backgroundColor: '#6a7985'
-                            }
+                    series: [
+                        {
+                            name: '平均预警',
+                            type: 'line',
+                            data: [820, 932, 901, 934, 1290, 1330],
+                            animationDuration: 2000,
+                            animationEasing: 'cubicInOut'
                         },
-                        formatter: '{a} <br/>{b} : {c}'
-                    },
-                    toolbox: {
-                        show: true,
-                        itemGap: 5,
-                        top: '20',
-                        right: '60',
-                        feature: {
-                            magicType: {
-                                type: ['line', 'bar']
-                            },
-                            restore: {}
+                        {
+                            name: '个人预警',
+                            type: 'line',
+                            data: [720, 632, 801, 1234, 1090, 1430],
+                            animationDuration: 2000,
+                            animationEasing: 'cubicInOut'
                         }
-                    },
-                    series: [{
-                        name: '预警数量',
-                        data: [820, 932, 901, 934, 1290, 1330],
-                        type: 'line',
-                        areaStyle: {
-                            color: {
-                                type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [
-                                    {
-                                        offset: 0, color: '#84fab0'
-                                    },
-                                    {
-                                        offset: 1, color: '#8fd3f4'
-                                    }
-                                ],
-                                global: false
-                            }
-                        },
-                        animationDuration: 2800,
-                        animationEasing: 'cubicInOut'
-                    }]
+                    ],
+                    color: ['#05c091','#4992ff']
                 }
 
 
